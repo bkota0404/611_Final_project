@@ -1,5 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        DBManager bdm = new DBManager();
+        Bank bank = new Bank("BankName");
+        bank.startOperations();
     }
 }
