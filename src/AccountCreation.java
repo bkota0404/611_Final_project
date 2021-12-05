@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class AccountRepo implements BankRepository{
+public class AccountCreation implements BankRepository{
 
     @Override
     public void delete(int id) {

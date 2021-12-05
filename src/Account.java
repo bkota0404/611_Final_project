@@ -1,5 +1,4 @@
 import java.math.BigDecimal;
-
 public class Account {
 
     private AccountType accountType;

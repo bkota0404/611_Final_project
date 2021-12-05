@@ -1,14 +1,12 @@
-import java.util.List;
-
 public class Bank {
 
     private final DBManager dbManger;
     private final String bankName;
-    private final SavingsAccountRepo savingAccountRepo;
+    private final SavingsAccountCreation savingAccountRepo;
 
     public Bank(String bankName) {
         DBManager db = new DBManager();
-        SavingsAccountRepo savingAccountRepo = new SavingsAccountRepo();
+        SavingsAccountCreation savingAccountRepo = new SavingsAccountCreation();
         this.dbManger = db;
         this.bankName = bankName;
         this.savingAccountRepo = savingAccountRepo;
