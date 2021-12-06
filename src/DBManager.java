@@ -17,6 +17,7 @@ public class DBManager {
             conn = DriverManager.getConnection(url);
 
             System.out.println("Connection to SQLite has been established.");
+            //dropTables();
             createTable();
 
         } catch (SQLException e) {
@@ -28,8 +29,8 @@ public class DBManager {
         try{
             Statement stmt = conn.createStatement();
             //create account table
-            String sql = "CREATE TABLE IF NOT EXISTS ACCOUNT (\n"
-                    + "	ID INTEGER NOT NULL,\n"
+            String sql = "CREATE TABLE IF NOT EXISTS ACCOUNTS (\n"
+                    + "	ID INTEGER NOT NULL UNIQUE,\n"
                     + "	USER_ID INTEGER NOT NULL,\n"
                     + "	NAME TEXT NOT NULL,\n"
                     + "	AMOUNT REAL NOT NULL,\n"
@@ -38,11 +39,11 @@ public class DBManager {
                     + " PRIMARY KEY (ID AUTOINCREMENT)\n"
                     + ");";
             stmt.execute(sql);
-            System.out.println("Account table created");
+            System.out.println("Accounts table created");
 
             //create user table
             sql = "CREATE TABLE IF NOT EXISTS USERS (\n"
-                    + "	ID INTEGER NOT NULL,\n"
+                    + "	ID INTEGER NOT NULL UNIQUE,\n"
                     + "	NAME TEXT NOT NULL,\n"
                     + "	USERNAME TEXT NOT NULL UNIQUE,\n"
                     + "	PASSWORD TEXT NOT NULL,\n"
@@ -50,26 +51,27 @@ public class DBManager {
                     + " PRIMARY KEY (ID AUTOINCREMENT)\n"
                     + ");";
             stmt.execute(sql);
-            System.out.println("User table created");
+            System.out.println("Users table created");
 
 
             //create stocks table
             sql = "CREATE TABLE IF NOT EXISTS STOCKSPURCHASED (\n"
-                    + "	ID INTEGER NOT NULL,\n"
-                    + "	STOCK_NAME TEXT NOT NULL,\n"
+                    + "	ID INTEGER NOT NULL UNIQUE,\n"
+                    + "	STOCK_NAME TEXT NOT NULL UNIQUE,\n"
                     + "	ACCT_ID INTEGER NOT NULL,\n"
                     + "	USER_ID INTEGER NOT NULL,\n"
-                    + "	DESC TEXT NOT NULL UNIQUE,\n"
+                    + "	DESC TEXT NOT NULL,\n"
                     + "	NUMBER INTEGER NOT NULL,\n"
                     + "	PRICE REAL NOT NULL,\n"
                     + "	TOTAL_VALUE REAL NOT NULL,\n"
                     + " PRIMARY KEY (ID AUTOINCREMENT)\n"
                     + ");";
             stmt.execute(sql);
+            System.out.println("Stocks table created");
 
             //create loans table
             sql = "CREATE TABLE IF NOT EXISTS LOANS (\n"
-                    + "	ID INTEGER NOT NULL,\n"
+                    + "	ID INTEGER NOT NULL UNIQUE,\n"
                     + "	ACCT_ID INTEGER NOT NULL,\n"
                     + "	USER_ID INTEGER NOT NULL,\n"
                     + "	COLLATERAL TEXT NOT NULL UNIQUE,\n"
@@ -79,11 +81,11 @@ public class DBManager {
                     + " PRIMARY KEY (ID AUTOINCREMENT)\n"
                     + ");";
             stmt.execute(sql);
-            System.out.println("Stocks table created");
+            System.out.println("Loans table created");
 
             //transactions table
             sql = "CREATE TABLE IF NOT EXISTS TRANSACTIONS(\n"
-                    + "ID INTEGER NOT NULL,\n"
+                    + "ID INTEGER NOT NULL UNIQUE,\n"
                     + "TYPE TEXT NOT NULL,\n"
                     + "USERID INTEGER NOT NULL,\n"
                     + "ACCT_ID INTEGER,\n"
@@ -99,7 +101,7 @@ public class DBManager {
 
             //Currency table
             sql = "CREATE TABLE IF NOT EXISTS CURRENCY (\n"
-                    + "	ID INTEGER NOT NULL,\n"
+                    + "	ID INTEGER NOT NULL UNIQUE,\n"
                     + "	CURRSYMBOL TEXT NOT NULL UNIQUE,\n"
                     + "	EXCHANGERATE TEXT NOT NULL,\n"
                     + "	STATUS TEXT NOT NULL,\n"
@@ -110,6 +112,29 @@ public class DBManager {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    //drop tables for testing
+    public void dropTables() {
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            String sql = "DROP TABLE USERS";
+            stmt.execute(sql);
+            sql = "DROP TABLE ACCOUNT";
+            stmt.execute(sql);
+            sql = "DROP TABLE TRANSACTIONS";
+            stmt.execute(sql);
+            sql = "DROP TABLE LOANS";
+            stmt.execute(sql);
+            sql = "DROP TABLE STOCKSPURCHASED";
+            stmt.execute(sql);
+            sql = "DROP TABLE CURRENCY";
+            stmt.execute(sql);
+            System.out.println("Drop successful");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -136,7 +161,7 @@ public class DBManager {
 
     //insert data into account table
     public Account addAccount(int userId, double amount, String currency, String type) {
-        String sql = "INSERT INTO ACCOUNT(USER_ID,AMOUNT,CURRENCY,TYPE) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO ACCOUNTS(USER_ID,AMOUNT,CURRENCY,TYPE) VALUES(?,?,?,?)";
         Account account = null;
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
