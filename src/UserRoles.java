@@ -1,7 +1,7 @@
 public enum UserRoles {
-    MANAGER("Manager"),
-    EMPLOYEE("Employee"),
-    CUSTOMER("Customer");
+    MANAGER("MANAGER"),
+    EMPLOYEE("EMPLOYEE"),
+    CUSTOMER("CUSTOMER");
 
     private String userRoles;
 
