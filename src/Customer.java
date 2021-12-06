@@ -19,8 +19,12 @@ public class Customer extends User {
 		loans = new ArrayList<>();
 		transactions = new ArrayList<>();
 	}
-	
-	public void addAccount(Account a) {
+
+    public Customer(int id, String name, String userName, String password, List<Account> accounts) {
+        super();
+    }
+
+    public void addAccount(Account a) {
 		accounts.add(a);
 	}
 	

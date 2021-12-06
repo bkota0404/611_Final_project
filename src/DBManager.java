@@ -29,7 +29,7 @@ public class DBManager {
             Statement stmt = conn.createStatement();
             //create account table
             String sql = "CREATE TABLE IF NOT EXISTS ACCOUNT (\n"
-                    + "	ID INTEGER NOT NULL AUTO_INCREMENT,\n"
+                    + "	ID INTEGER NOT NULL,\n"
                     + "	USER_ID INTEGER NOT NULL,\n"
                     + "	NAME TEXT NOT NULL,\n"
                     + "	AMOUNT REAL NOT NULL,\n"
@@ -42,7 +42,7 @@ public class DBManager {
 
             //create user table
             sql = "CREATE TABLE IF NOT EXISTS USERS (\n"
-                    + "	ID INTEGER NOT NULL AUTO_INCREMENT,\n"
+                    + "	ID INTEGER NOT NULL,\n"
                     + "	NAME TEXT NOT NULL,\n"
                     + "	USERNAME TEXT NOT NULL UNIQUE,\n"
                     + "	PASSWORD TEXT NOT NULL,\n"
@@ -55,7 +55,7 @@ public class DBManager {
 
             //create stocks table
             sql = "CREATE TABLE IF NOT EXISTS STOCKSPURCHASED (\n"
-                    + "	ID INTEGER NOT NULL AUTO_INCREMENT,\n"
+                    + "	ID INTEGER NOT NULL,\n"
                     + "	STOCK_NAME TEXT NOT NULL,\n"
                     + "	ACCT_ID INTEGER NOT NULL,\n"
                     + "	USER_ID INTEGER NOT NULL,\n"
@@ -69,7 +69,7 @@ public class DBManager {
 
             //create loans table
             sql = "CREATE TABLE IF NOT EXISTS LOANS (\n"
-                    + "	ID INTEGER NOT NULL AUTO_INCREMENT,\n"
+                    + "	ID INTEGER NOT NULL,\n"
                     + "	ACCT_ID INTEGER NOT NULL,\n"
                     + "	USER_ID INTEGER NOT NULL,\n"
                     + "	COLLATERAL TEXT NOT NULL UNIQUE,\n"
@@ -83,7 +83,7 @@ public class DBManager {
 
             //transactions table
             sql = "CREATE TABLE IF NOT EXISTS TRANSACTIONS(\n"
-                    + "ID INTEGER NOT NULL AUTO_INCREMENT,\n"
+                    + "ID INTEGER NOT NULL,\n"
                     + "TYPE TEXT NOT NULL,\n"
                     + "USERID INTEGER NOT NULL,\n"
                     + "ACCT_ID INTEGER,\n"
@@ -99,7 +99,7 @@ public class DBManager {
 
             //Currency table
             sql = "CREATE TABLE IF NOT EXISTS CURRENCY (\n"
-                    + "	ID INTEGER NOT NULL AUTO_INCREMENT,\n"
+                    + "	ID INTEGER NOT NULL,\n"
                     + "	CURRSYMBOL TEXT NOT NULL UNIQUE,\n"
                     + "	EXCHANGERATE TEXT NOT NULL,\n"
                     + "	STATUS TEXT NOT NULL,\n"
@@ -114,19 +114,19 @@ public class DBManager {
     }
 
     //check for authenticated user
-    public User isValidUser(String user, String pass) {
+    public User isValidUser(String username, String pass) {
         String sql = "SELECT ID, USERNAME FROM USERS WHERE USERNAME = ? AND PASSWORD = ?";
         User authUser = null;
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, user);
+            stmt.setString(1, username);
             stmt.setString(2, pass);
             ResultSet rs = stmt.executeQuery();
             int id = rs.getInt(1);
             if (id == 0) {
                 return null;
             }
-            authUser = getUser(user);
+            authUser = getUser(username);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
@@ -328,7 +328,7 @@ public class DBManager {
                 //List<Loan> loans = getAllUserLoans(id);
                 //List<Transaction> transactions = getAllUserTransaction(id);
                 //List<StockPosition> stockPositions = getAllStockPosition(id);
-                //newUser = new Customer(id, name, userName, password, loans, accounts, transactions, stocks);
+                newUser = new Customer(id, name, userName, password, accounts);
             } else if (role.equals(UserRoles.MANAGER.toString())) {
                 newUser = new Manager();
             }
