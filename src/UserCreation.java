@@ -12,7 +12,7 @@ public class UserCreation implements BankRepository{
     }
 
 
-    public boolean createUser(String name, UserRoles userRole, String username, String password) {
+    public static boolean createUser(String name, UserRoles userRole, String username, String password) {
             // TO-DO
             return true;
     }
