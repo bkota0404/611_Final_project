@@ -3,7 +3,6 @@ public class Bank {
     private final DBManager dbManger;
     private final String bankName;
     private final SavingsAccountCreation savingAccountRepo;
-
     private User loggedUser;
 
     public Bank(String bankName) {

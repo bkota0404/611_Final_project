@@ -54,7 +54,7 @@ public class DBManager {
 
 
             //create stocks table
-            sql = "CREATE TABLE IF NOT EXISTS STOCKS (\n"
+            sql = "CREATE TABLE IF NOT EXISTS STOCKSPURCHASED (\n"
                     + "	ID INTEGER NOT NULL AUTO_INCREMENT,\n"
                     + "	STOCK_NAME TEXT NOT NULL,\n"
                     + "	ACCT_ID INTEGER NOT NULL,\n"
@@ -83,7 +83,7 @@ public class DBManager {
 
             //transactions table
             sql = "CREATE TABLE IF NOT EXISTS TRANSACTIONS(\n"
-                    + "	ID INTEGER NOT NULL AUTO_INCREMENT,\n"
+                    + "ID INTEGER NOT NULL AUTO_INCREMENT,\n"
                     + "TYPE TEXT NOT NULL,\n"
                     + "USERID INTEGER NOT NULL,\n"
                     + "ACCT_ID INTEGER,\n"
@@ -111,6 +111,27 @@ public class DBManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    //check for authenticated user
+    public User isValidUser(String user, String pass) {
+        String sql = "SELECT ID, USERNAME FROM USERS WHERE USERNAME = ? AND PASSWORD = ?";
+        User authUser = null;
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, user);
+            stmt.setString(2, pass);
+            ResultSet rs = stmt.executeQuery();
+            int id = rs.getInt(1);
+            if (id == 0) {
+                return null;
+            }
+            authUser = getUser(user);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return authUser;
     }
 
     //insert data into account table

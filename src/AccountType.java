@@ -2,7 +2,8 @@ public enum AccountType {
 
     SAVINGS("SAVINGS"),
     CHECKING("CHECKING"),
-    SECURITIES("SECURITIES");
+    SECURITIES("SECURITIES"),
+    MANAGERACCOUNT("MANAGERACCOUNT");
 
     private String accountType;
 
