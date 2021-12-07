@@ -12,8 +12,11 @@ public class UserCreation implements BankRepository{
     }
 
 
-    public static boolean createUser(String name, UserRoles userRole, String username, String password) {
-            // TO-DO
+    public boolean createUser(String name, String username, String password, UserRoles userRole, DBManager dbManager) {
+        boolean isCreated = dbManager.addUser(name,username,password,userRole);
+        if(isCreated)
             return true;
+        else
+            return false;
     }
 }

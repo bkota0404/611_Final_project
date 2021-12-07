@@ -24,7 +24,7 @@ public class SignUpScreen extends Screen{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if(UserCreation.createUser(nameField.getText(), UserRoles.CUSTOMER, usernameField.getText(), String.valueOf(passwordField.getPassword()))) {
+                if(UserCreation.createUser(nameField.getText(), usernameField.getText(), String.valueOf(passwordField.getPassword()), UserRoles.CUSTOMER)) {
                     int choice = JOptionPane.showConfirmDialog(mainPanel, "Succeed. Log in with this account?", "Option Dialog", JOptionPane.YES_NO_OPTION);
                     switch (choice) {
                         case 0:

@@ -8,6 +8,14 @@ public class Bank {
     private SecuritiesAcntCreation securitiesAccntCreation;
     private UserCreation userCreation;
 
+    public UserCreation getUserCreation() {
+        return userCreation;
+    }
+
+    public void setUserCreation(UserCreation userCreation) {
+        this.userCreation = userCreation;
+    }
+
 
     public SavingsAccountCreation getSavingAccountRepo() {
         return savingAccountRepo;
@@ -57,10 +65,12 @@ public class Bank {
     public void initializeBank(){
         SavingsAccountCreation savingAccountRepo = new SavingsAccountCreation();
         this.setSavingAccountRepo(savingAccountRepo);
+        UserCreation userCreation = new UserCreation();
+        this.setUserCreation(userCreation);
     }
 
     public boolean signup(String name, String userName, String password){
-        boolean isUserCreated = dbManger.addUser(name,userName,password,UserRoles.CUSTOMER);
+        boolean isUserCreated = userCreation.createUser(name,userName,password,UserRoles.CUSTOMER,dbManger);
         if(isUserCreated)
             return true;
         else
