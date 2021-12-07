@@ -34,7 +34,7 @@ public class CustomerScreen extends Screen{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-
+                createAccountScreen();
             }
         });
         viewTransactionsButton.addMouseListener(new MouseAdapter() {
@@ -50,4 +50,16 @@ public class CustomerScreen extends Screen{
             }
         });
     }
+
+
+
+    private void createAccountScreen() {
+        Customer customer = (Customer) bank.getLoggedUser();
+//        List<UIItem> items = new ArrayList<UIItem>();
+//        for(Account account: customer.getAllAccounts()) {
+//            items.add(new AccountItem(customer, account));
+//        }
+        new AccountScreen(bank, customer.getAllAccounts());
+    }
+
 }

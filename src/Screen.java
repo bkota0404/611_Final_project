@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.event.WindowEvent;
 
 public abstract class Screen extends JFrame {
 
@@ -11,8 +10,8 @@ public abstract class Screen extends JFrame {
     }
 
 
-    public void close() {
-        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING) );
+    protected void close() {
+        this.dispose();
     }
 
 

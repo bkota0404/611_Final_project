@@ -9,7 +9,6 @@ public class SignUpScreen extends Screen{
     private JPasswordField passwordField;
     private JPasswordField reEnterPasswordField;
     private JButton createYourAccountButton;
-    private Bank bank;
 
     SignUpScreen(Bank bank) {
         super(bank);
@@ -24,7 +23,15 @@ public class SignUpScreen extends Screen{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if(UserCreation.createUser(nameField.getText(), usernameField.getText(), String.valueOf(passwordField.getPassword()), UserRoles.CUSTOMER)) {
+                String password = String.valueOf(passwordField.getPassword());
+                String reEnterPassword = String.valueOf(reEnterPasswordField.getPassword());
+                if(!password.equals(reEnterPassword)) {
+                    JOptionPane.showMessageDialog(null, "The entered passwords are inconsistent, please input again.");
+                    passwordField.setText("");
+                    reEnterPasswordField.setText("");
+                    return;
+                }
+                if(bank.signup(nameField.getText(), usernameField.getText(), password)) {
                     int choice = JOptionPane.showConfirmDialog(mainPanel, "Succeed. Log in with this account?", "Option Dialog", JOptionPane.YES_NO_OPTION);
                     switch (choice) {
                         case 0:
@@ -38,7 +45,7 @@ public class SignUpScreen extends Screen{
                     close();
                 }
                 else {
-                    JOptionPane.showMessageDialog(mainPanel, "Failed to sign up! Please change to another username.");
+                    JOptionPane.showMessageDialog(mainPanel, "Failed to sign up! Please change username.");
                 }
             }
         });
