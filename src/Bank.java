@@ -58,4 +58,12 @@ public class Bank {
         SavingsAccountCreation savingAccountRepo = new SavingsAccountCreation();
         this.setSavingAccountRepo(savingAccountRepo);
     }
+
+    public boolean signup(String name, String userName, String password){
+        boolean isUserCreated = dbManger.addUser(name,userName,password,UserRoles.CUSTOMER);
+        if(isUserCreated)
+            return true;
+        else
+            return false;
+    }
 }

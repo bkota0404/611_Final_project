@@ -294,13 +294,13 @@ public class DBManager {
     }
 
     //add User
-    public boolean addUser(String name, String user, String pass, UserRoles role) {
+    public boolean addUser(String name, String userName, String password, UserRoles role) {
         String sql = "INSERT INTO USERS(NAME,USERNAME,PASSWORD,ROLE) VALUES (?,?,?,?)";
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, name);
-            stmt.setString(2, user);
-            stmt.setString(3, pass);
+            stmt.setString(2, userName);
+            stmt.setString(3, password);
             stmt.setString(4, role.toString());
             stmt.execute();
             stmt.close();
@@ -388,7 +388,108 @@ public class DBManager {
     }
 
     //add loans
+    public Loan addLoan(Customer c, double amount, String currency, String collateral) {
+        String sql = "INSERT INTO LOANS(USERID,AMOUNT,CURRENCY,COLLATERAL,STATUS) VALUES (?,?,?,?)";
+        Loan loan = null;
 
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+            stmt.setInt(1, c.getUserId());
+            stmt.setDouble(2, amount);
+            stmt.setString(3, currency);
+            stmt.setString(4, collateral);
+            stmt.setString(5, LoanStatus.OPEN.getLoanStatus());
+            stmt.execute();
 
+            //sql = "SELECT MAX(ID) FROM LOANS";
+            //stmt = conn.prepareStatement(sql);
+            //ResultSet rs = stmt.executeQuery();
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                loan = new Loan(generatedKeys.getInt(1), c.getUserId(), currency, amount, collateral,LoanStatus.OPEN);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return loan;
+    }
+
+    //get loan by id
+    public Loan getLoan(int id) {
+        Loan loan = null;
+        try {
+            String sql = "SELECT ID, USERID, CURRENCY ,AMOUNT, COLLATERAL,STATUS FROM LOANS WHERE ID = ?";
+
+            PreparedStatement stmt2 = conn.prepareStatement(sql);
+            stmt2.setInt(1, id);
+            ResultSet rs2 = stmt2.executeQuery();
+            if(rs2.getString(6).equalsIgnoreCase(LoanStatus.OPEN.getLoanStatus())){
+                loan = new Loan(
+                        rs2.getInt(1),
+                        rs2.getInt(2),
+                        rs2.getString(3),
+                        rs2.getDouble(4),
+                        rs2.getString(5),
+                        LoanStatus.OPEN);
+            }
+            else{
+                loan = new Loan(
+                        rs2.getInt(1),
+                        rs2.getInt(2),
+                        rs2.getString(3),
+                        rs2.getDouble(4),
+                        rs2.getString(5),
+                        LoanStatus.CLOSE);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return loan;
+    }
+
+    //get all user loans which are open status
+    public List<Loan> getAllUserLoans(int userId) {
+        List<Loan> loans = new ArrayList<>();
+
+        try {
+            String sql = "SELECT ID FROM LOANS WHERE USERID = ? AND STATUS = LoanStatus.OPEN.getLoanStatus()";
+
+            PreparedStatement stmt2 = conn.prepareStatement(sql);
+            stmt2.setInt(1, userId);
+            ResultSet rs2 = stmt2.executeQuery();
+            while (rs2.next()) {
+                Loan l = getLoan(rs2.getInt(1));
+                loans.add(l);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return loans;
+    }
+
+    //get all loans for manager view
+    public List<Loan> getAllLoans() {
+        List<Loan> loans = new ArrayList<>();
+
+        try {
+            String sql = "SELECT ID FROM LOANS";
+
+            PreparedStatement stmt2 = conn.prepareStatement(sql);
+
+            ResultSet rs2 = stmt2.executeQuery();
+            while (rs2.next()) {
+                Loan l = getLoan(rs2.getInt(1));
+                loans.add(l);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return loans;
+    }
 
 }

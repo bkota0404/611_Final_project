@@ -6,13 +6,24 @@ public class Loan {
     private int accountID;
     private String currency;
     private double amount;
+    private LoanStatus loanStatus;
 
-    public Loan(int loanID, int userID, String currency, double loanAmount, String collateral) {
+    public LoanStatus getLoanStatus() {
+        return loanStatus;
+    }
+
+    public void setLoanStatus(LoanStatus loanStatus) {
+        this.loanStatus = loanStatus;
+    }
+
+
+    public Loan(int loanID, int userID, String currency, double loanAmount, String collateral,LoanStatus loanStatus) {
         this.setLoanID(loanID);
         this.setUserID(userID);
         this.setCurrency(currency);
         this.setAmount(loanAmount);
         this.setCollateral(collateral);
+        this.setLoanStatus(loanStatus);
     }
 
     public int getLoanID() {
