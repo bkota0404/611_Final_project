@@ -57,4 +57,11 @@ public class Customer extends User {
 		}
 		return sa;
 	}
+	
+	public List<Account> getAllAccounts() {
+		if (accounts.size() > 0) {
+			return accounts;
+		}
+		return null;
+	}
 }
