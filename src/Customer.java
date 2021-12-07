@@ -13,15 +13,21 @@ public class Customer extends User {
 	private List<Account> accounts;
 	private List<Loan> loans;
 	private List<Transaction> transactions;
+
 	
-	public Customer() {
+	public Customer(int id, String name, String userName, String password, UserRoles userRole) {
+		super(id, name, userName, password, userRole);
 		accounts = new ArrayList<>();
 		loans = new ArrayList<>();
 		transactions = new ArrayList<>();
 	}
 
-    public Customer(int id, String name, String userName, String password, List<Account> accounts) {
-        super();
+    public Customer(int id, String name, String userName, String password, UserRoles userRole,List<Account> accounts,
+					List<Loan> loans,List<Transaction> transactions, List<StocksPurchased> stockPurchased)  {
+		super(id, name, userName, password, userRole);
+		this.accounts = accounts;
+		this.loans = loans;
+		this.transactions = transactions;
     }
 
     public void addAccount(Account a) {
@@ -48,20 +54,30 @@ public class Customer extends User {
 		transactions.remove(t);
 	}
 
+
+	//check why currency is required as input parameter
 	public List<SavingsAccount> getSavingsAccount(String currency) {
 		List<SavingsAccount> sa = new ArrayList<>();
-		for (Account a: accounts) {
+		for (Account a: this.accounts) {
 			if (a.getAccountType() == AccountType.SAVINGS && a.getCurrency() == currency) {
 				sa.add((SavingsAccount)a);
 			}
 		}
 		return sa;
 	}
-	
-	public List<Account> getAllAccounts() {
-		if (accounts.size() > 0) {
-			return accounts;
-		}
-		return null;
+
+	public List<Account> getAccounts() {
+		return accounts;
 	}
+
+
+	public List<Loan> getLoans() {
+		return loans;
+	}
+
+
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+
 }

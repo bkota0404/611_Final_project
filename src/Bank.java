@@ -1,5 +1,6 @@
 public class Bank {
 
+
     private final DBManager dbManger;
     private final String bankName;
     private SavingsAccountCreation savingAccountRepo;
@@ -75,5 +76,9 @@ public class Bank {
             return true;
         else
             return false;
+    }
+
+    public DBManager getDbManger() {
+        return dbManger;
     }
 }

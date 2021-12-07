@@ -17,8 +17,10 @@ public class DBManager {
             conn = DriverManager.getConnection(url);
 
             System.out.println("Connection to SQLite has been established.");
-            //dropTables();
+            dropTables();
             createTable();
+            //System.out.println(getAllCustomers().get(0));
+
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -122,7 +124,7 @@ public class DBManager {
             stmt = conn.createStatement();
             String sql = "DROP TABLE USERS";
             stmt.execute(sql);
-            sql = "DROP TABLE ACCOUNT";
+            sql = "DROP TABLE ACCOUNTS";
             stmt.execute(sql);
             sql = "DROP TABLE TRANSACTIONS";
             stmt.execute(sql);
@@ -148,10 +150,13 @@ public class DBManager {
             stmt.setString(2, pass);
             ResultSet rs = stmt.executeQuery();
             int id = rs.getInt(1);
-            if (id == 0) {
+            if (id == -1) {
                 return null;
             }
-            authUser = getUser(username);
+            else {
+                authUser = getUser(username);
+                //System.out.println(authUser.getUserId()+" "+authUser.getUserName()+" "+authUser.getName());
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
@@ -297,6 +302,7 @@ public class DBManager {
     public boolean addUser(String name, String userName, String password, UserRoles role) {
         String sql = "INSERT INTO USERS(NAME,USERNAME,PASSWORD,ROLE) VALUES (?,?,?,?)";
         try {
+            System.out.println(name+" "+userName);
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, name);
             stmt.setString(2, userName);
@@ -353,9 +359,9 @@ public class DBManager {
                 //List<Loan> loans = getAllUserLoans(id);
                 //List<Transaction> transactions = getAllUserTransaction(id);
                 //List<StockPosition> stockPositions = getAllStockPosition(id);
-                newUser = new Customer(id, name, userName, password, accounts);
+                newUser = new Customer(id, name, userName, password, UserRoles.CUSTOMER);
             } else if (role.equals(UserRoles.MANAGER.toString())) {
-                newUser = new Manager();
+                newUser = new Manager(id, name, userName, password, UserRoles.MANAGER);
             }
             stmt.close();
             rs.close();
@@ -385,6 +391,19 @@ public class DBManager {
             return null;
         }
         return accounts;
+    }
+
+    //add Bank manager as a user
+    public void addBankManager() {
+        String sql = "INSERT OR IGNORE INTO USERS(NAME,USERNAME,PASSWORD,ROLE) VALUES (\"BANKMANAGER\",\"admin\",\"admin\",\"MANAGER\");";
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            stmt.execute(sql);
+            stmt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     //add loans

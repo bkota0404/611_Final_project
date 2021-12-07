@@ -59,7 +59,7 @@ public class CustomerScreen extends Screen{
 //        for(Account account: customer.getAllAccounts()) {
 //            items.add(new AccountItem(customer, account));
 //        }
-        new AccountScreen(bank, customer.getAllAccounts());
+        new AccountScreen(bank, customer.getAccounts());
     }
 
 }

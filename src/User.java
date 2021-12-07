@@ -6,6 +6,10 @@ public class User {
     private int userId;
     private String name;
 
+    public User(int id, String name, String userName, String password, UserRoles userRole){
+    }
+
+
     public String getUserName() {
         return userName;
     }

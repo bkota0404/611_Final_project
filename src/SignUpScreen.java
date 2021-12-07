@@ -32,6 +32,7 @@ public class SignUpScreen extends Screen{
                     return;
                 }
                 if(bank.signup(nameField.getText(), usernameField.getText(), password)) {
+                    //bank.getUserCreation().createUser(nameField.getText(),usernameField.getText(),password, UserRoles.CUSTOMER,bank.getDbManger());
                     int choice = JOptionPane.showConfirmDialog(mainPanel, "Succeed. Log in with this account?", "Option Dialog", JOptionPane.YES_NO_OPTION);
                     switch (choice) {
                         case 0:
