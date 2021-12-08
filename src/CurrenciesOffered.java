@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CurrenciesOffered implements BankRepository{
     @Override
@@ -6,8 +9,10 @@ public class CurrenciesOffered implements BankRepository{
 
     }
 
+    //list of all the currencies offered as a String
     @Override
     public List getAllList() {
-        return null;
+        List<String>  currencyList = Arrays.stream(CurrencyType.values()).map(Enum::name).collect(Collectors.toList());
+        return currencyList;
     }
 }

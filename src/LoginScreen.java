@@ -23,6 +23,7 @@ public class LoginScreen extends Screen{
                 super.mouseClicked(e);
                 String username = usernameField.getText();
                 String password = String.valueOf(passwordField.getPassword());
+                System.out.println("Username:" + username + " Password:" + password);
                 if(bank.login(username, password)) {
                     User user = bank.getLoggedUser();
                     switch (user.getUserRole()) {
@@ -44,12 +45,17 @@ public class LoginScreen extends Screen{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                // set up sign-up window
-                new SignUpScreen(bank);
-                // close the log in window
-                close();
+                signUp();
             }
         });
+    }
+
+
+    private void signUp() {
+        // set up sign-up window
+        new SignUpScreen(bank);
+        // close the log in window
+        close();
     }
 
 
