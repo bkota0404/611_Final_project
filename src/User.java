@@ -7,6 +7,11 @@ public class User {
     private String name;
 
     public User(int id, String name, String userName, String password, UserRoles userRole){
+        this.setName(name);
+        this.setUserName(userName);
+        this.setUserId(id);
+        this.setPassword(password);
+        this.setUserRole(userRole);
     }
 
 

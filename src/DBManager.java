@@ -17,7 +17,7 @@ public class DBManager {
             conn = DriverManager.getConnection(url);
 
             System.out.println("Connection to SQLite has been established.");
-            dropTables();
+            //dropTables();
             createTable();
             //System.out.println(getAllCustomers().get(0));
 
@@ -141,21 +141,22 @@ public class DBManager {
     }
 
     //check for authenticated user
-    public User isValidUser(String username, String pass) {
+    public User isValidUser(String username, String password) {
         String sql = "SELECT ID, USERNAME FROM USERS WHERE USERNAME = ? AND PASSWORD = ?";
         User authUser = null;
+        int id = -1;
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, username);
-            stmt.setString(2, pass);
+            stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
-            int id = rs.getInt(1);
-            if (id == -1) {
-                return null;
-            }
-            else {
+            id = rs.getInt(1);
+            if (id != -1) {
                 authUser = getUser(username);
                 //System.out.println(authUser.getUserId()+" "+authUser.getUserName()+" "+authUser.getName());
+            }
+            else {
+                return null;
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

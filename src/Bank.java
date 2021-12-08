@@ -52,7 +52,7 @@ public class Bank {
         if(this.getLoggedUser() != null)
             return true;
         else
-         return false;
+            return false;
     }
 
     public void logout() {
