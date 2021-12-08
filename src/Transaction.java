@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+import java.util.Date;
 
 public class Transaction {
 
@@ -10,6 +12,20 @@ public class Transaction {
     private int targetUserID = 0;
     private int targetAccountID = 0;
     private String collateral;
+    private Date date;
+
+    public Transaction(int transactionID, Date date, TransactionType transactionType, double amount, String currency, int userid, int accountId, int targetUserId, int targetAccountId, String collateral) {
+        this.setTransactionID(transactionID);
+        this.setDate(date);
+        this.setTransactionType(transactionType);
+        this.setAmount(amount);
+        this.setCurrency(currency);
+        this.setUserID(userid);
+        this.setAccountID(accountId);
+        this.setTargetUserID(targetUserId);
+        this.setTargetAccountID(targetAccountId);
+        this.setCollateral(collateral);
+    }
 
 
     public int getTransactionID() {
@@ -82,6 +98,15 @@ public class Transaction {
 
     public void setCollateral(String collateral) {
         this.collateral = collateral;
+    }
+
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
 

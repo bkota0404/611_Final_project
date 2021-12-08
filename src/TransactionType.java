@@ -1,7 +1,10 @@
 public enum TransactionType {
     ACCOUNTDEPOSIT("ACCOUNTDEPOSIT"),
     WITHDRAWAL("WITHDRAWAL"),
-    LOANOPEN("LOANOPEN");
+    LOANOPEN("LOANOPEN"),
+    LOANCLOSE("LOANCLOSE"),
+    STOCKPURCHASED("STOCKPURCHASED"),
+    STOCKSOLD("STOCKSOLD");
 
     private String transactionName;
 

@@ -1,6 +1,10 @@
 import java.math.BigDecimal;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class DBManager {
@@ -357,7 +361,7 @@ public class DBManager {
             if (role.equals("CUSTOMER")) {
 
                 List<Account> accounts = getUserAccounts(id);
-                //List<Loan> loans = getAllUserLoans(id);
+                List<Loan> loans = getAllUserLoans(id);
                 //List<Transaction> transactions = getAllUserTransaction(id);
                 //List<StockPosition> stockPositions = getAllStockPosition(id);
                 newUser = new Customer(id, name, userName, password, UserRoles.CUSTOMER);
@@ -510,6 +514,40 @@ public class DBManager {
             return null;
         }
         return loans;
+    }
+
+    //add transaction
+    public Transaction addTransaction(TransactionType type, int userid, int accountId, double amount, String currency, int targetUserId, int targetAccountId, String collateral) {
+        String sql = "INSERT INTO TRANSACTIONS(DATE,TYPE,AMOUNT,CURRENCY,USERID,ACCT_ID,TARGETUSERID,TARGETACCOUNTID,COLLATERAL) VALUES (?,?,?,?,?,?,?,?,?)";
+        Transaction t = null;
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            Date date = Calendar.getInstance().getTime();
+            DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+            String strDate = dateFormat.format(date);
+            stmt.setString(1, strDate);
+            stmt.setString(2, type.toString());
+            stmt.setDouble(3, amount);
+            stmt.setString(4, currency);
+            stmt.setInt(5, userid);
+            stmt.setInt(6, accountId);
+            stmt.setInt(7, targetUserId);
+            stmt.setInt(8, targetAccountId);
+            stmt.setString(9, collateral);
+            stmt.execute();
+
+            sql = "SELECT MAX(ID) FROM TRANSACTIONS";
+            stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            t = new Transaction(rs.getInt(1), date, type, amount, currency, userid, accountId, targetUserId, targetAccountId, collateral);
+
+            stmt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return t;
     }
 
 }
