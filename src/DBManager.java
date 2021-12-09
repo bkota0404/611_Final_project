@@ -521,7 +521,7 @@ public class DBManager {
         String sql = "INSERT INTO TRANSACTIONS(DATE,TYPE,AMOUNT,CURRENCY,USERID,ACCT_ID,TARGETUSERID,TARGETACCOUNTID,COLLATERAL) VALUES (?,?,?,?,?,?,?,?,?)";
         Transaction t = null;
         try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             Date date = Calendar.getInstance().getTime();
             DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
             String strDate = dateFormat.format(date);
@@ -536,11 +536,10 @@ public class DBManager {
             stmt.setString(9, collateral);
             stmt.execute();
 
-            sql = "SELECT MAX(ID) FROM TRANSACTIONS";
-            stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-
-            t = new Transaction(rs.getInt(1), date, type, amount, currency, userid, accountId, targetUserId, targetAccountId, collateral);
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                t = new Transaction(generatedKeys.getInt(1), date, type, amount, currency, userid, accountId, targetUserId, targetAccountId, collateral);
+            }
 
             stmt.close();
         } catch (SQLException e) {
@@ -548,6 +547,104 @@ public class DBManager {
             return null;
         }
         return t;
+    }
+
+    //generate last 24 hrs transactions for bank manager
+    public List<Transaction> get24hrTransactionList() {
+        List<Transaction> list = new ArrayList<>();
+
+        try {
+            String sql = "SELECT ID FROM TRANSACTIONS WHERE DATE = ? OR DATE = ?";
+
+            PreparedStatement stmt2 = conn.prepareStatement(sql);
+            long day = 24 * 60 * 60 * 1000;
+            stmt2.setString(1, BankConstants.DATE_FORMAT.format(System.currentTimeMillis()));
+            stmt2.setString(2, BankConstants.DATE_FORMAT.format(System.currentTimeMillis() - day));
+            ResultSet rs2 = stmt2.executeQuery();
+            while (rs2.next()) {
+                Transaction l = getTransaction(rs2.getInt(1));
+                list.add(l);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return list;
+    }
+
+    //get a transaction by id
+    public Transaction getTransaction(int id) {
+        Transaction t = null;
+        try {
+            String sql = "SELECT ID, DATE, TYPE ,AMOUNT, CURRENCY, USERID, ACCOUNTID, TARGETACCOUNTID, TARGETUSERID, COLLATERAL FROM TRANSACTIONS WHERE ID = ?";
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            String sDate = rs.getString(2);
+            Date date = BankConstants.DATE_FORMAT.parse(sDate);
+            t = new Transaction(rs.getInt(1),
+                    date,
+                    TransactionType.valueOf(rs.getString(3)),
+                    rs.getDouble(4),
+                    rs.getString(5),
+                    rs.getInt(6),
+                    rs.getInt(7),
+                    rs.getInt(8),
+                    rs.getInt(9),
+                    rs.getString(10));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return t;
+    }
+
+    //get transactions of each user both credit and debit
+    public List<Transaction> getAllUserTransaction(int id) {
+        List<Transaction> list = new ArrayList<>();
+
+        try {
+            String sql = "SELECT ID FROM TRANSACTIONS WHERE USERID = ? OR TARGETUSERID = ?";
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.setInt(2, id);
+            ResultSet rs2 = stmt.executeQuery();
+            while (rs2.next()) {
+                Transaction l = getTransaction(rs2.getInt(1));
+                list.add(l);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return list;
+    }
+
+
+    //tranfer money from one account to other
+    public boolean transferMoney(int fromId, int toId, double fromAmount, double toAmount) {
+
+        String sql = "UPDATE ACCOUNTS SET AMOUNT = ? " +
+                "WHERE ID = ?";
+
+        try {
+            conn.setAutoCommit(false);
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setDouble(1, fromAmount);
+            stmt.setInt(2, fromId);
+            stmt.executeUpdate();
+            stmt = conn.prepareStatement(sql);
+            stmt.setDouble(1, toAmount);
+            stmt.setInt(2, toId);
+            stmt.executeUpdate();
+            conn.commit();
+            conn.setAutoCommit(true);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
     }
 
 }

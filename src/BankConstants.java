@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 
 public class BankConstants {
 	private static double openAccountFee = 10.00;
@@ -7,6 +8,7 @@ public class BankConstants {
 	private static double savingsInterestPercentage = 0.03;
 	private static double loanInterestPercentage = 0.1;
 	private static double withDrawFeePercentage = 0.01;
+	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
 	
 	public static double getOpenAccountFee() {
