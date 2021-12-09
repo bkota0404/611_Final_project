@@ -1,7 +1,7 @@
 public class Bank {
 
 
-    private final DBManager dbManger;
+    private DBManager dbManger = null;
     private final String bankName;
     private SavingsAccountCreation savingAccountRepo;
     private User loggedUser;
@@ -68,6 +68,7 @@ public class Bank {
         this.setSavingAccountRepo(savingAccountRepo);
         UserCreation userCreation = new UserCreation();
         this.setUserCreation(userCreation);
+        addBankManager();
     }
 
     public boolean signup(String name, String userName, String password){
@@ -80,5 +81,12 @@ public class Bank {
 
     public DBManager getDbManger() {
         return dbManger;
+    }
+
+    public void addBankManager(){
+        User bankManager = dbManger.getUser("admin");
+        if(bankManager == null){
+            boolean isUserCreated = userCreation.createUser("Bank Manager","admin","admin",UserRoles.MANAGER,dbManger);
+        }
     }
 }
