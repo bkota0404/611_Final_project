@@ -80,4 +80,8 @@ public class Customer extends User {
 		return transactions;
 	}
 
+	public void deleteAccount(Account account){
+		this.accounts.remove(account);
+	}
+
 }

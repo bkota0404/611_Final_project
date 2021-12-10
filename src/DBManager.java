@@ -1,4 +1,3 @@
-import java.math.BigDecimal;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -15,6 +14,7 @@ public class DBManager {
             // db parameters
             //Class.forName("org.sqlite.JDBC");
             String file = System.getProperty("user.dir") + "/src/database/";
+            System.out.println(file);
             String url = "jdbc:sqlite:" + file +"bankproject.db";
             // create a connection to the database
             //System.out.println(url);
@@ -148,7 +148,7 @@ public class DBManager {
     public User isValidUser(String username, String password) {
         String sql = "SELECT ID, USERNAME FROM USERS WHERE USERNAME = ? AND PASSWORD = ?";
         User authUser = null;
-        int id = -1;
+        int id;
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, username);
@@ -228,6 +228,28 @@ public class DBManager {
                     break;
             }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return account;
+    }
+
+    //get User account by accounttype
+    public Account getUserAccountByType(Customer customer, AccountType accountType){
+        int userID = customer.getUserId();
+        Account account = null;
+        try{
+            String sql = "SELECT ID FROM ACCOUNTS WHERE USER_ID = ? AND TYPE = ?";
+            PreparedStatement stmt2 = conn.prepareStatement(sql);
+            stmt2.setInt(1, userID);
+            stmt2.setString(2, accountType.getAccountType());
+            ResultSet rs = stmt2.executeQuery();
+            if(rs.next()){
+                int accntID = rs.getInt(1);
+                account = getAccount(accntID);
+            }
+
+        }catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
