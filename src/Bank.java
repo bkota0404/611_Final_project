@@ -204,6 +204,18 @@ public class Bank {
     
     public boolean payBackLoan(Loan loan, Account account, double amount) {
     	// TO-DO
+        if (account.getBalance() < amount) {
+            return false;
+        }
+        double loanAmount = loan.getAmount();
+        double realAmount = Math.min(loanAmount, amount);
+        account.deductBalance(realAmount);
+        loan.setAmount(loanAmount - realAmount);
+        dbManger.updateLoanAmount(loan.getLoanID(), loanAmount - realAmount);
+        if (loanAmount == realAmount) {
+        	loan.setLoanStatus(LoanStatus.CLOSE);
+        	dbManger.updateLoanClosure(loan.getLoanID());
+        }
     	return false;
     }
     

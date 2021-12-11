@@ -694,7 +694,7 @@ public class DBManager {
             stmt.setInt(2, toId);
             stmt.executeUpdate();
             conn.commit();
-            conn.setAutoCommit(true);x
+            conn.setAutoCommit(true);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
