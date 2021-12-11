@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -7,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 public class DBManager {
-    private Connection conn = null;
+    private Connection conn;
 
     public DBManager() {
         try {
@@ -17,7 +18,7 @@ public class DBManager {
             System.out.println(file);
             String url = "jdbc:sqlite:" + file +"bankproject.db";
             // create a connection to the database
-            //System.out.println(url);
+            System.out.println(url);
             conn = DriverManager.getConnection(url);
 
             System.out.println("Connection to SQLite has been established.");
@@ -538,6 +539,38 @@ public class DBManager {
         return loans;
     }
 
+    //update loan amount
+    public boolean updateLoanAmount(int id, double amount) {
+        String sql = "UPDATE LOANS SET AMOUNT = ? WHERE ID = ?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setDouble(1, amount);
+            stmt.setInt(2, id);
+            stmt.execute();
+            stmt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    //update loan to closure
+    public boolean updateLoanClosure(int id) {
+        String sql = "UPDATE LOANS SET STATUS = ? WHERE ID = ?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, LoanStatus.CLOSE.getLoanStatus());
+            stmt.setInt(2, id);
+            stmt.execute();
+            stmt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
     //add transaction
     public Transaction addTransaction(TransactionType type, int userid, int accountId, double amount, String currency, int targetUserId, int targetAccountId, String collateral) {
         String sql = "INSERT INTO TRANSACTIONS(DATE,TYPE,AMOUNT,CURRENCY,USERID,ACCT_ID,TARGETUSERID,TARGETACCOUNTID,COLLATERAL) VALUES (?,?,?,?,?,?,?,?,?)";
@@ -668,6 +701,5 @@ public class DBManager {
         }
         return true;
     }
-
 
 }
