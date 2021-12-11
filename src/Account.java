@@ -67,5 +67,13 @@ public class Account {
     public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
+    
+    public void addBalance(double amount) {
+    	this.balance += amount;
+    }
+    
+    public void deductBalance(double amount) {
+    	this.balance -= amount;
+    }
 
 }

@@ -662,7 +662,7 @@ public class DBManager {
             stmt.setInt(2, toId);
             stmt.executeUpdate();
             conn.commit();
-            conn.setAutoCommit(true);
+            conn.setAutoCommit(true);x
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

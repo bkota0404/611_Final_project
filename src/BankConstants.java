@@ -8,6 +8,7 @@ public class BankConstants {
 	private static double minOpenSecuritiesAccountBalance = 1000.00;
 	private static double savingsInterestPercentage = 0.03;
 	private static double loanInterestPercentage = 0.1;
+	private static double transactionFeeRate = 0.05;
 	private static double withDrawFeePercentage = 0.01;
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -66,5 +67,9 @@ public class BankConstants {
 
 	public static double getMinOpenSavingAccountBalanceForSecurities() {
 		return minOpenSavingAccountBalanceForSecurities;
+	}
+	
+	public static double getTransactionFeeRate() {
+		return transactionFeeRate;
 	}
 }
