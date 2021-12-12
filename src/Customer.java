@@ -15,13 +15,13 @@ public class Customer extends User {
 		return stockPurchased;
 	}
 
-	public Customer(int id, String name, String userName, String password, UserRoles userRole) {
+	/*public Customer(int id, String name, String userName, String password, UserRoles userRole) {
 		super(id, name, userName, password, userRole);
 		accounts = new ArrayList<>();
 		loans = new ArrayList<>();
 		transactions = new ArrayList<>();
 		this.stockPurchased = new ArrayList<>();
-	}
+	}*/
 	
 	public Customer(User user, List<Account> accounts,
 			List<Loan> loans,List<Transaction> transactions,List<StocksPurchased> stockPurchased) {

@@ -39,7 +39,7 @@ public class DBManager {
             String sql = "CREATE TABLE IF NOT EXISTS ACCOUNTS (\n"
                     + "	ID INTEGER NOT NULL UNIQUE,\n"
                     + "	USER_ID INTEGER NOT NULL,\n"
-                    + "	NAME TEXT NOT NULL,\n"
+                    //+ "	NAME TEXT NOT NULL,\n"
                     + "	AMOUNT REAL NOT NULL,\n"
                     + "	CURRENCY TEXT NOT NULL,\n"
                     + " TYPE TEXT NOT NULL,\n"
@@ -432,9 +432,11 @@ public class DBManager {
                 List<StocksPurchased> stocksPurchased = getAllStocksPurchased(id);
                 newUser = new Customer(id, name, userName, password, UserRoles.CUSTOMER,accounts,loans,transactions,stocksPurchased);
                 SecuritiesAccount s = null;
-                for(Account a:accounts){
-                    if(a.getAccountType().equals(AccountType.SECURITIES))
-                        s = (SecuritiesAccount)a;
+                if(accounts.get(0) != null){
+                    for(Account a:accounts){
+                        if(a.getAccountType().equals(AccountType.SECURITIES))
+                            s = (SecuritiesAccount)a;
+                    }
                 }
                 if(s != null)
                     s.setStocksPurchased(stocksPurchased);

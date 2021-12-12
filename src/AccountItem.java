@@ -51,5 +51,4 @@ public class AccountItem extends UIItem{
 
     public JPanel getMainPanel() {return mainPanel;}
 
-
 }
