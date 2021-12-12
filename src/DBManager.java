@@ -330,7 +330,7 @@ public class DBManager {
     }
 
     //get the list of all stocks purchased by the user
-    public List<StocksPurchased> getAllStockPosition(int userID){
+    public List<StocksPurchased> getAllStocksPurchased(int userID){
         List<StocksPurchased> userStocks = new ArrayList<>();
         try {
             String sql = "SELECT ID FROM STOCKSPURCHASED WHERE USER_ID = ?";
@@ -426,12 +426,18 @@ public class DBManager {
             String role = rs.getString(5);
 
             if (role.equals("CUSTOMER")) {
-
                 List<Account> accounts = getUserAccounts(id);
                 List<Loan> loans = getAllUserLoans(id);
                 List<Transaction> transactions = getAllUserTransaction(id);
-                List<StocksPurchased> stockPositions = getAllStockPosition(id);
-                newUser = new Customer(id, name, userName, password, UserRoles.CUSTOMER,accounts,loans,transactions,stockPositions);
+                List<StocksPurchased> stocksPurchased = getAllStocksPurchased(id);
+                newUser = new Customer(id, name, userName, password, UserRoles.CUSTOMER,accounts,loans,transactions,stocksPurchased);
+                SecuritiesAccount s = null;
+                for(Account a:accounts){
+                    if(a.getAccountType().equals(AccountType.SECURITIES))
+                        s = (SecuritiesAccount)a;
+                }
+                if(s != null)
+                    s.setStocksPurchased(stocksPurchased);
             } else if (role.equals(UserRoles.MANAGER.toString())) {
                 newUser = new Manager(id, name, userName, password, UserRoles.MANAGER);
             }

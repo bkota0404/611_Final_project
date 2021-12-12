@@ -27,7 +27,7 @@ public class CustomerDetailsScreen extends ItemScreen{
         for(Loan loan: customer.getLoans()) {
             loanPanel.add(new LoanItem(null, loan, this).getMainPanel());
         }
-        for(StocksPurchased stock: customer.getStockPurchased()) {
+        for(StocksPurchased stock: customer.getCustomerSecurityAcct().getStocksPurchased()) {
             stockPanel.add(new StockPurchasedItem(stock, this).getMainPanel());
         }
 

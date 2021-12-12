@@ -4,9 +4,8 @@ public class SecuritiesAccount extends Account{
 
     private List<StocksPurchased> stocksPurchased;
 
-    public List<StocksPurchased> getStocksPurchased(DBManager db, int userID) {
-        this.stocksPurchased = db.getAllStockPosition(userID);
-        return stocksPurchased;
+    public List<StocksPurchased> getStocksPurchased() {
+        return this.stocksPurchased;
     }
 
     public void setStocksPurchased(List<StocksPurchased> stocksPurchased) {

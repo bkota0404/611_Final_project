@@ -8,9 +8,13 @@ public class Customer extends User {
 	private List<Account> accounts;
 	private List<Loan> loans;
 	private List<Transaction> transactions;
-	List<StocksPurchased> stockPurchased;
+	private List<StocksPurchased> stockPurchased;
 
-	
+
+	public List<StocksPurchased> getStockPurchased() {
+		return stockPurchased;
+	}
+
 	public Customer(int id, String name, String userName, String password, UserRoles userRole) {
 		super(id, name, userName, password, userRole);
 		accounts = new ArrayList<>();
@@ -20,12 +24,12 @@ public class Customer extends User {
 	}
 	
 	public Customer(User user, List<Account> accounts,
-			List<Loan> loans,List<Transaction> transactions) {
+			List<Loan> loans,List<Transaction> transactions,List<StocksPurchased> stockPurchased) {
 		super(user.getUserId(), user.getName(), user.getUserName(), user.getPassword(), user.getUserRole());
 		this.accounts = accounts;
 		this.loans = loans;
 		this.transactions = transactions;
-//		this.stockPurchased = stockPurchased;
+		this.stockPurchased = stockPurchased;
 	}
 
     public Customer(int id, String name, String userName, String password, UserRoles userRole,List<Account> accounts,
@@ -89,6 +93,15 @@ public class Customer extends User {
 
 	public void deleteAccount(Account account){
 		this.accounts.remove(account);
+	}
+
+	public SecuritiesAccount getCustomerSecurityAcct(){
+		SecuritiesAccount s=null;
+		for(Account a: this.getAccounts()){
+			if(a.getAccountType().equals(AccountType.SECURITIES))
+				s = (SecuritiesAccount)a;
+		}
+		return s;
 	}
 
 }

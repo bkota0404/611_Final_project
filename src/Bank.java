@@ -223,7 +223,7 @@ public class Bank {
     	if (loggedUser.getUserRole() == UserRoles.CUSTOMER) {
     		Customer customer = new Customer(loggedUser, dbManger.getUserAccounts(loggedUser.getUserId()), 
     				dbManger.getAllUserLoans(loggedUser.getUserId()),
-    				dbManger.getAllUserTransaction(loggedUser.getUserId()));
+    				dbManger.getAllUserTransaction(loggedUser.getUserId()),dbManger.getAllStocksPurchased(loggedUser.getUserId()));
     		Loan loan = dbManger.addLoan(customer, loanAmount, currency.getCurrencyName(), collateral);
             if (loan != null) {
                 customer.addLoan(loan);
