@@ -1,4 +1,5 @@
 import java.math.BigDecimal;
+import java.util.*;
 
 public class Bank {
 
@@ -203,7 +204,6 @@ public class Bank {
     }
     
     public boolean payBackLoan(Loan loan, Account account, double amount) {
-    	// TO-DO
         if (account.getBalance() < amount) {
             return false;
         }
@@ -232,5 +232,21 @@ public class Bank {
     	}
         return false;
     }
-
+    
+    public List<Customer> getAllCustomers() {
+    	return dbManger.getAllCustomers();
+    }
+    
+    public List<Transaction> getDailyTransactions() {
+    	return dbManger.get24hrTransactionList();
+    }
+    
+    public boolean isQualifiedForSecurities() {
+    	Account savingsAccount = dbManger.getUserAccountByType((Customer)this.getLoggedUser(),AccountType.SAVINGS);
+        if(savingsAccount.getBalance() > BankConstants.getMinOpenSavingAccountBalanceForSecurities()){
+            return true;
+        }
+    	return false;
+    }
+    
 }
