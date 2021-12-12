@@ -29,7 +29,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="e7465" class="javax.swing.JButton" binding="buttonOK">
+              <component id="e7465" class="javax.swing.JButton" binding="gotItButton">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -57,28 +57,28 @@
               <text value="Charging Rules"/>
             </properties>
           </component>
-          <component id="33ce0" class="javax.swing.JLabel">
+          <component id="33ce0" class="javax.swing.JLabel" binding="rule1Label">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="1. $10 will be charged for every time an account is opened or closed. "/>
+              <text value=""/>
             </properties>
           </component>
-          <component id="c156f" class="javax.swing.JLabel">
+          <component id="c156f" class="javax.swing.JLabel" binding="rule2Label">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="2. $5 will be charged for every time checking account transaction."/>
+              <text value=""/>
             </properties>
           </component>
-          <component id="da4dd" class="javax.swing.JLabel">
+          <component id="da4dd" class="javax.swing.JLabel" binding="rule3Label">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="3. $5 will be charged for every time withdrawal is made."/>
+              <text value=""/>
             </properties>
           </component>
           <component id="f26b2" class="javax.swing.JLabel">

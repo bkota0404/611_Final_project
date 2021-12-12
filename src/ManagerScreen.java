@@ -9,7 +9,7 @@ public class ManagerScreen extends Screen {
     private JButton logOutButton;
     private JButton viewDailyReportButton;
     private JButton checkCustomersButton;
-    private JButton stockMarketButton;
+    private JButton stockMarketManagementButton;
 
     public ManagerScreen(Bank bank) {
         super(bank);
@@ -26,6 +26,28 @@ public class ManagerScreen extends Screen {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 bank.logout();
+            }
+        });
+
+        viewDailyReportButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                new DailyReportScreen(bank);
+            }
+        });
+        stockMarketManagementButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                new StockMarketManagementScreen(bank);
+            }
+        });
+        checkCustomersButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                new CheckCustomersScreen(bank);
             }
         });
     }

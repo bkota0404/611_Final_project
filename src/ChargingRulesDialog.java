@@ -3,20 +3,30 @@ import java.awt.event.*;
 
 public class ChargingRulesDialog extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
+    private JButton gotItButton;
+    private JLabel rule1Label;
+    private JLabel rule2Label;
+    private JLabel rule3Label;
 //    private JButton buttonCancel;
 
     public ChargingRulesDialog() {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        setSize(500, 300);
+        setLocation(400, 200);
+        getRootPane().setDefaultButton(gotItButton);
 
-        buttonOK.addActionListener(new ActionListener() {
+        rule1Label.setText("1. " + BankConstants.getOpenAccountFee() + " will be charged for every time an account is opened or closed. ");
+        rule2Label.setText("2. " + BankConstants.getTransactionFeeRate() + " of amount will be charged for every time checking account transaction.");
+        rule3Label.setText("3. " + BankConstants.getWithDrawFeePercentage() + " of amount will be charged for every time withdrawal is made.");
+
+        gotItButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
         });
-
+        pack();
+        setVisible(true);
 //        buttonCancel.addActionListener(new ActionListener() {
 //            public void actionPerformed(ActionEvent e) {
 //                onCancel();

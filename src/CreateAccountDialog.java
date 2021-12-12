@@ -11,30 +11,26 @@ public class CreateAccountDialog extends JDialog {
     private JComboBox typeCombo;
     private JComboBox currencyCombo;
     private JSpinner amountSpinner;
+    private JLabel tipsLabel;
+    private Bank bank;
 
-    public CreateAccountDialog() {
+    public CreateAccountDialog(Bank bank) {
+        this.bank = bank;
         setContentPane(contentPane);
         setModal(true);
+        setSize(400, 300);
+        setLocation(400, 200);
         getRootPane().setDefaultButton(buttonOK);
 
         typeCombo.addItem("Savings Account");
         typeCombo.addItem("Checking Account");
+
         List<String> currencyTypeList = Stream.of(CurrencyType.values()).map(CurrencyType::name).collect(Collectors.toList());
         for(String type: currencyTypeList)
             currencyCombo.addItem(type);
-        amountSpinner.setModel(new SpinnerNumberModel(100, 50, 1000000, 1));
+        amountSpinner.setModel(new SpinnerNumberModel(100, BankConstants.getMinOpenAccountBalance(), 1000000, 1));
+        tipsLabel.setText("Minimum amount is " + BankConstants.getMinOpenAccountBalance() + ".") ;
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
-
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -50,11 +46,54 @@ public class CreateAccountDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        buttonCancel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                System.out.println("Cancel");
+                onCancel();
+            }
+        });
+        buttonOK.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                onOK();
+            }
+        });
+        pack();
+        setVisible(true);
     }
 
     private void onOK() {
         // add your code here
-
+        double amount = Double.valueOf(amountSpinner.getValue().toString());
+        AccountType accountType = null;
+        CurrencyType currencyType = null;
+        switch (typeCombo.getSelectedIndex()) {
+            case 0:
+                accountType = AccountType.SAVINGS;
+                break;
+            case 1:
+                accountType = AccountType.CHECKING;
+                break;
+        }
+        switch (currencyCombo.getSelectedIndex()) {
+            case 0:
+                currencyType = CurrencyType.USD;
+                break;
+            case 1:
+                currencyType = CurrencyType.CAD;
+                break;
+            case 2:
+                currencyType = CurrencyType.GBP;
+                break;
+        }
+        if(!bank.createAccount(currencyType, amount - BankConstants.getOpenAccountFee(), accountType)) {
+            JOptionPane.showMessageDialog(contentPane, "Failed to create the account.");
+            return;
+        }
         dispose();
     }
 

@@ -1,10 +1,10 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AccountScreen extends Screen{
+public class AccountScreen extends ItemScreen{
 
 
     private JPanel mainPanel;
@@ -12,20 +12,23 @@ public class AccountScreen extends Screen{
     private JLabel customer;
     private JPanel accountPanel;
     private JButton createAccountButton;
+    private JButton transferButton;
     private List<AccountItem> accountItems;
 
-    public AccountScreen(Bank bank, List<Account> accounts) {
+    public AccountScreen(Bank bank) {
         super(bank);
 
-        updateAccountItems(accounts);
+        accountItems = new ArrayList<AccountItem>();
+        accountPanel.setLayout(new BoxLayout(accountPanel, BoxLayout.Y_AXIS));
+        Customer customer1 = (Customer) bank.getLoggedUser();
+        updateAccountItems(customer1.getAccounts());
         customer.setText(bank.getLoggedUser().getName());
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setContentPane(mainPanel);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 700);
         setLocation(400, 100);
         setVisible(true);
 
-        accountPanel.setLayout(new BoxLayout(accountPanel, BoxLayout.Y_AXIS));
 
         viewChargingRulesButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -39,30 +42,43 @@ public class AccountScreen extends Screen{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                new CreateAccountDialog();
+                new CreateAccountDialog(bank);
+            }
+        });
+        transferButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                new TransferDialog(bank);
             }
         });
     }
 
+    @Override
+    public void updateItems() {
+
+    }
 
 
     private void addAccountItem(Account account) {
-        AccountItem accountItem = new AccountItem(account, this);
+        AccountItem accountItem = new AccountItem(bank, account, this);
         accountItems.add(accountItem);
-        accountPanel.add(accountItem);
+        accountPanel.add(accountItem.getMainPanel());
     }
 
 
     private void updateAccountItems(List<Account> accounts) {
+        accountItems.clear();
         accountPanel.removeAll();
         if(accounts == null) {
-            accountItems = null;
+//            accountItems = new ArrayList<AccountItem>();
+//            System.out.println("no account");
             return;
         }
         for(Account account: accounts) {
-            AccountItem accountItem = new AccountItem(account, this);
+            AccountItem accountItem = new AccountItem(bank, account, this);
             accountItems.add(accountItem);
-            accountPanel.add(accountItem);
+            accountPanel.add(accountItem.getMainPanel());
         }
     }
 

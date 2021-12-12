@@ -28,38 +28,47 @@ public class CustomerScreen extends Screen{
                 super.mouseClicked(e);
                 bank.logout();
                 close();
+//                new LoginScreen(bank);
             }
         });
         viewAccountsButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                createAccountScreen();
+                new AccountScreen(bank);
+//                close();
             }
         });
         viewTransactionsButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                new TransactionScreen(bank);
             }
         });
         viewLoansButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                new LoanScreen(bank);
+            }
+        });
+        viewStockButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                new StockScreen(bank);
             }
         });
     }
 
 
 
-    private void createAccountScreen() {
-        Customer customer = (Customer) bank.getLoggedUser();
-//        List<UIItem> items = new ArrayList<UIItem>();
-//        for(Account account: customer.getAllAccounts()) {
-//            items.add(new AccountItem(customer, account));
-//        }
-        new AccountScreen(bank, customer.getAccounts());
-    }
+//    private void createAccountScreen() {
+//        Customer customer = (Customer) bank.getLoggedUser();
+//
+//    }
+
+
 
 }
