@@ -582,6 +582,38 @@ public class DBManager {
         }
         return loans;
     }
+    
+    //update loan amount
+    public boolean updateLoanAmount(int id, double amount) {
+        String sql = "UPDATE LOANS SET AMOUNT = ? WHERE ID = ?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setDouble(1, amount);
+            stmt.setInt(2, id);
+            stmt.execute();
+            stmt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    //update loan to closure
+    public boolean updateLoanClosure(int id) {
+        String sql = "UPDATE LOANS SET STATUS = ? WHERE ID = ?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, LoanStatus.CLOSE.getLoanStatus());
+            stmt.setInt(2, id);
+            stmt.execute();
+            stmt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
 
     //update loan amount
     public boolean updateLoanAmount(int id, double amount) {

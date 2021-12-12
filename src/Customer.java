@@ -3,16 +3,12 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 
- * @author Qingyuan Zhang
- *
- */
 public class Customer extends User {
 
 	private List<Account> accounts;
 	private List<Loan> loans;
 	private List<Transaction> transactions;
+	List<StocksPurchased> stockPurchased;
 
 	
 	public Customer(int id, String name, String userName, String password, UserRoles userRole) {
@@ -20,6 +16,16 @@ public class Customer extends User {
 		accounts = new ArrayList<>();
 		loans = new ArrayList<>();
 		transactions = new ArrayList<>();
+		this.stockPurchased = new ArrayList<>();
+	}
+	
+	public Customer(User user, List<Account> accounts,
+			List<Loan> loans,List<Transaction> transactions) {
+		super(user.getUserId(), user.getName(), user.getUserName(), user.getPassword(), user.getUserRole());
+		this.accounts = accounts;
+		this.loans = loans;
+		this.transactions = transactions;
+//		this.stockPurchased = stockPurchased;
 	}
 
     public Customer(int id, String name, String userName, String password, UserRoles userRole,List<Account> accounts,
@@ -28,6 +34,7 @@ public class Customer extends User {
 		this.accounts = accounts;
 		this.loans = loans;
 		this.transactions = transactions;
+		this.stockPurchased = stockPurchased;
     }
 
     public void addAccount(Account a) {
