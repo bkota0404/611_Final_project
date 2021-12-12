@@ -68,9 +68,10 @@ public class DBManager {
                     + "	ACCT_ID INTEGER NOT NULL,\n"
                     + "	USER_ID INTEGER NOT NULL,\n"
                     + "	DESC TEXT NOT NULL,\n"
-                    + "	NUMBER INTEGER NOT NULL,\n"
+                    + "	SYMBOL INTEGER NOT NULL,\n"
                     + "	PRICE REAL NOT NULL,\n"
                     + "	TOTAL_VALUE REAL NOT NULL,\n"
+                    + "	CURRENCY TEXT NOT NULL,\n"
                     + " PRIMARY KEY (ID AUTOINCREMENT)\n"
                     + ");";
             stmt.execute(sql);
@@ -310,20 +311,63 @@ public class DBManager {
 
 
     //add stock into stocks table
-    public void addStocks(String name, String description, int numOfStocks, double price, double totalValue) {
-        String sql = "INSERT INTO STOCKS(STOCK_NAME,DESC,NUMBER,PRICE,TOTAL_VALUE) VALUES(?,?,?,?,?)";
+    public void addStocks(String name, String symbol, int numOfStocks, double price, String currency, int userID, int accntID) {
+        String sql = "INSERT INTO STOCKSPURCHASED(STOCK_NAME,SYMBOL,NUMBER,PRICE,CURRENCY,USER_ID,ACCT_ID) VALUES(?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, name);
-            pstmt.setString(2, description);
+            pstmt.setString(2, symbol);
             pstmt.setInt(3, numOfStocks);
             pstmt.setDouble(4, price);
-            pstmt.setDouble(4, totalValue);
+            pstmt.setString(5, currency);
+            pstmt.setInt(6, userID);
+            pstmt.setInt(7, accntID);
             pstmt.execute();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    //get the list of all stocks purchased by the user
+    public List<StocksPurchased> getAllStockPosition(int userID){
+        List<StocksPurchased> userStocks = new ArrayList<>();
+        try {
+            String sql = "SELECT ID FROM STOCKSPURCHASED WHERE USER_ID = ?";
+            PreparedStatement stmt2 = conn.prepareStatement(sql);
+            stmt2.setInt(1, userID);
+            ResultSet rs2 = stmt2.executeQuery();
+            while (rs2.next()) {
+                StocksPurchased s = getStockPurchasedByID(rs2.getInt(1));
+                userStocks.add(s);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+        return userStocks;
+    }
+
+    //get the stock purchased by id
+    public StocksPurchased getStockPurchasedByID(int stockID){
+        StocksPurchased stocksPurchased = null;
+        try {
+            String sql = "SELECT ID, STOCK_NAME, SYMBOL, NUMBER, PRICE, CURRENCY,USER_ID,ACCT_ID FROM ACCOUNTS WHERE ID = ?";
+            PreparedStatement stmt2 = conn.prepareStatement(sql);
+            stmt2.setInt(1, stockID);
+            ResultSet rs = stmt2.executeQuery();
+            if(rs.next()){
+                Stocks s = new Stocks(rs.getInt(1),rs.getString(6),rs.getDouble(5),
+                        rs.getString(2),rs.getString(3));
+                stocksPurchased = new StocksPurchased(rs.getInt(7),rs.getInt(8),rs.getInt(4),s);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return stocksPurchased;
     }
 
     //add User
@@ -385,9 +429,9 @@ public class DBManager {
 
                 List<Account> accounts = getUserAccounts(id);
                 List<Loan> loans = getAllUserLoans(id);
-                //List<Transaction> transactions = getAllUserTransaction(id);
-                //List<StockPosition> stockPositions = getAllStockPosition(id);
-                newUser = new Customer(id, name, userName, password, UserRoles.CUSTOMER);
+                List<Transaction> transactions = getAllUserTransaction(id);
+                List<StocksPurchased> stockPositions = getAllStockPosition(id);
+                newUser = new Customer(id, name, userName, password, UserRoles.CUSTOMER,accounts,loans,transactions,stockPositions);
             } else if (role.equals(UserRoles.MANAGER.toString())) {
                 newUser = new Manager(id, name, userName, password, UserRoles.MANAGER);
             }
