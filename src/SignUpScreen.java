@@ -31,12 +31,14 @@ public class SignUpScreen extends Screen{
                     reEnterPasswordField.setText("");
                     return;
                 }
-                if(bank.signup(nameField.getText(), usernameField.getText(), password)) {
+                Customer customer = null;
+                if((customer = (Customer) bank.signup(nameField.getText(), usernameField.getText(), password)) != null ) {
                     //bank.getUserCreation().createUser(nameField.getText(),usernameField.getText(),password, UserRoles.CUSTOMER,bank.getDbManger());
                     int choice = JOptionPane.showConfirmDialog(mainPanel, "Succeed. Log in with this account?", "Option Dialog", JOptionPane.YES_NO_OPTION);
                     switch (choice) {
                         case 0:
-                            bank.login(usernameField.getText(), String.valueOf(passwordField.getPassword()));
+//                            bank.login(usernameField.getText(), String.valueOf(passwordField.getPassword()));
+                            bank.login(customer);
                             new CustomerScreen(bank);
                             break;
                         case 1:

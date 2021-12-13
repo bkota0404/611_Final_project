@@ -183,9 +183,9 @@ public class DBManager {
             pstmt.setString(4, type);
             pstmt.executeUpdate();
             ResultSet generatedKeys = pstmt.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    account = getAccount(generatedKeys.getInt(1));
-                }
+            if (generatedKeys.next()) {
+                account = getAccount(generatedKeys.getInt(1));
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -432,10 +432,12 @@ public class DBManager {
                 List<StocksPurchased> stocksPurchased = getAllStocksPurchased(id);
                 newUser = new Customer(id, name, userName, password, UserRoles.CUSTOMER,accounts,loans,transactions,stocksPurchased);
                 SecuritiesAccount s = null;
-                if(accounts.get(0) != null){
-                    for(Account a:accounts){
-                        if(a.getAccountType().equals(AccountType.SECURITIES))
-                            s = (SecuritiesAccount)a;
+                if(accounts.size()>0) {
+                    if(accounts.get(0) != null){
+                        for(Account a:accounts){
+                            if(a.getAccountType().equals(AccountType.SECURITIES))
+                                s = (SecuritiesAccount)a;
+                        }
                     }
                 }
                 if(s != null)
@@ -590,7 +592,7 @@ public class DBManager {
         }
         return loans;
     }
-    
+
     //update loan amount
     public boolean updateLoanAmount(int id, double amount) {
         String sql = "UPDATE LOANS SET AMOUNT = ? WHERE ID = ?";

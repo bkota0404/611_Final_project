@@ -58,6 +58,14 @@ public class Bank {
             return false;
     }
 
+    public boolean login(User user) {
+        this.setLoggedUser(user);
+        if(this.getLoggedUser() != null)
+            return true;
+        else
+            return false;
+    }
+
     public void logout() {
         new LoginScreen(this);
     }
@@ -79,12 +87,13 @@ public class Bank {
     }
 
     //signup function for new user
-    public boolean signup(String name, String userName, String password){
-        boolean isUserCreated = userCreation.createUser(name,userName,password,UserRoles.CUSTOMER,dbManger);
-        if(isUserCreated)
-            return true;
-        else
-            return false;
+    public User signup(String name, String userName, String password){
+        User user = userCreation.createUser(name,userName,password,UserRoles.CUSTOMER,dbManger);
+        return user;
+//        if(isUserCreated)
+//            return true;
+//        else
+//            return false;
     }
 
     public DBManager getDbManger() {
@@ -95,7 +104,7 @@ public class Bank {
     public void addBankManager(){
         User bankManager = dbManger.getUser("admin");
         if(bankManager == null){
-            boolean isUserCreated = userCreation.createUser("Bank Manager","admin","admin",UserRoles.MANAGER,dbManger);
+            User isUserCreated = userCreation.createUser("Bank Manager","admin","admin",UserRoles.MANAGER,dbManger);
         }
     }
 
@@ -187,22 +196,22 @@ public class Bank {
         }
         dbManger.addTransaction(transactionType, customerID, account.getAccountId(), amount, account.getCurrency(), -1, -1, null);
     }
-    
+
     public boolean transfer(Account fromAccount, Account toAccount, double amount) {
-    	if (!fromAccount.getCurrency().equals(toAccount.getCurrency())) {
-    		return false;
-    	}
-    	if (fromAccount.getBalance() < amount) {
-    		return false;
-    	}
-    	fromAccount.deductBalance(amount);
-    	toAccount.addBalance(amount * (1 - BankConstants.getTransactionFeeRate()));
-    	if(!dbManger.transferMoney(fromAccount.getAccountId(), toAccount.getAccountId(), fromAccount.getBalance(), toAccount.getBalance())) {
-    		return false;
-    	}
-    	return true;
+        if (!fromAccount.getCurrency().equals(toAccount.getCurrency())) {
+            return false;
+        }
+        if (fromAccount.getBalance() < amount) {
+            return false;
+        }
+        fromAccount.deductBalance(amount);
+        toAccount.addBalance(amount * (1 - BankConstants.getTransactionFeeRate()));
+        if(!dbManger.transferMoney(fromAccount.getAccountId(), toAccount.getAccountId(), fromAccount.getBalance(), toAccount.getBalance())) {
+            return false;
+        }
+        return true;
     }
-    
+
     public boolean payBackLoan(Loan loan, Account account, double amount) {
         if (account.getBalance() < amount) {
             return false;
@@ -213,40 +222,40 @@ public class Bank {
         loan.setAmount(loanAmount - realAmount);
         dbManger.updateLoanAmount(loan.getLoanID(), loanAmount - realAmount);
         if (loanAmount == realAmount) {
-        	loan.setLoanStatus(LoanStatus.CLOSE);
-        	dbManger.updateLoanClosure(loan.getLoanID());
+            loan.setLoanStatus(LoanStatus.CLOSE);
+            dbManger.updateLoanClosure(loan.getLoanID());
         }
-    	return false;
+        return false;
     }
-    
+
     public boolean requestLoan(CurrencyType currency, double loanAmount, String collateral) {
-    	if (loggedUser.getUserRole() == UserRoles.CUSTOMER) {
-    		Customer customer = new Customer(loggedUser, dbManger.getUserAccounts(loggedUser.getUserId()), 
-    				dbManger.getAllUserLoans(loggedUser.getUserId()),
-    				dbManger.getAllUserTransaction(loggedUser.getUserId()),dbManger.getAllStocksPurchased(loggedUser.getUserId()));
-    		Loan loan = dbManger.addLoan(customer, loanAmount, currency.getCurrencyName(), collateral);
+        if (loggedUser.getUserRole() == UserRoles.CUSTOMER) {
+            Customer customer = new Customer(loggedUser, dbManger.getUserAccounts(loggedUser.getUserId()),
+                    dbManger.getAllUserLoans(loggedUser.getUserId()),
+                    dbManger.getAllUserTransaction(loggedUser.getUserId()),dbManger.getAllStocksPurchased(loggedUser.getUserId()));
+            Loan loan = dbManger.addLoan(customer, loanAmount, currency.getCurrencyName(), collateral);
             if (loan != null) {
                 customer.addLoan(loan);
                 return true;
             }
-    	}
+        }
         return false;
     }
-    
+
     public List<Customer> getAllCustomers() {
-    	return dbManger.getAllCustomers();
+        return dbManger.getAllCustomers();
     }
-    
+
     public List<Transaction> getDailyTransactions() {
-    	return dbManger.get24hrTransactionList();
+        return dbManger.get24hrTransactionList();
     }
-    
+
     public boolean isQualifiedForSecurities() {
-    	Account savingsAccount = dbManger.getUserAccountByType((Customer)this.getLoggedUser(),AccountType.SAVINGS);
+        Account savingsAccount = dbManger.getUserAccountByType((Customer)this.getLoggedUser(),AccountType.SAVINGS);
         if(savingsAccount.getBalance() > BankConstants.getMinOpenSavingAccountBalanceForSecurities()){
             return true;
         }
-    	return false;
+        return false;
     }
-    
+
 }
