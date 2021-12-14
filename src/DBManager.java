@@ -184,6 +184,7 @@ public class DBManager {
             pstmt.executeUpdate();
             ResultSet generatedKeys = pstmt.getGeneratedKeys();
             if (generatedKeys.next()) {
+                int i = generatedKeys.getInt(1);
                 account = getAccount(generatedKeys.getInt(1));
             }
         } catch (SQLException e) {
@@ -197,7 +198,7 @@ public class DBManager {
     public Account getAccount(int id) {
         Account account = null;
         try {
-            String sql = "SELECT ID, USER_ID, CURRENCY ,AMOUNT, TYPE FROM ACCOUNTS WHERE ID = ?";
+            String sql = "SELECT ID, USER_ID, TYPE ,AMOUNT, TYPE FROM ACCOUNTS WHERE ID = ?";
             PreparedStatement stmt2 = conn.prepareStatement(sql);
             stmt2.setInt(1, id);
             ResultSet rs = stmt2.executeQuery();
@@ -375,7 +376,7 @@ public class DBManager {
         String sql = "INSERT INTO USERS(NAME,USERNAME,PASSWORD,ROLE) VALUES (?,?,?,?)";
         try {
             System.out.println(name+" "+userName);
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, name);
             stmt.setString(2, userName);
             stmt.setString(3, password);
