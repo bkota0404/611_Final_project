@@ -80,9 +80,9 @@ public class DBManager {
             //create loans table
             sql = "CREATE TABLE IF NOT EXISTS LOANS (\n"
                     + "	ID INTEGER NOT NULL UNIQUE,\n"
-                    + "	ACCT_ID INTEGER NOT NULL,\n"
+                    + "	ACCT_ID INTEGER,\n"
                     + "	USER_ID INTEGER NOT NULL,\n"
-                    + "	COLLATERAL TEXT NOT NULL UNIQUE,\n"
+                    + "	COLLATERAL TEXT NOT NULL,\n"
                     + "	AMOUNT REAL NOT NULL,\n"
                     + "	CURRENCY TEXT NOT NULL,\n"
                     + "	STATUS TEXT NOT NULL,\n"
@@ -296,7 +296,7 @@ public class DBManager {
 
     //Update balance to account
     public boolean updateBalance(int accountId, double amount) {
-        String sql = "UPDATE ACCOUNTS SET AMOUNT = ?," +  "WHERE ID = ?";
+        String sql = "UPDATE ACCOUNTS SET AMOUNT = ? WHERE ID = ?";
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setDouble(1, amount);
@@ -491,7 +491,7 @@ public class DBManager {
 
     //add loans
     public Loan addLoan(Customer c, double amount, String currency, String collateral) {
-        String sql = "INSERT INTO LOANS(USERID,AMOUNT,CURRENCY,COLLATERAL,STATUS) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO LOANS(USER_ID,AMOUNT,CURRENCY,COLLATERAL,STATUS) VALUES (?,?,?,?,?)";
         Loan loan = null;
 
         try {
@@ -521,7 +521,7 @@ public class DBManager {
     public Loan getLoan(int id) {
         Loan loan = null;
         try {
-            String sql = "SELECT ID, USERID, CURRENCY ,AMOUNT, COLLATERAL,STATUS FROM LOANS WHERE ID = ?";
+            String sql = "SELECT ID, USER_ID, CURRENCY ,AMOUNT, COLLATERAL,STATUS FROM LOANS WHERE ID = ?";
 
             PreparedStatement stmt2 = conn.prepareStatement(sql);
             stmt2.setInt(1, id);
@@ -557,7 +557,7 @@ public class DBManager {
         List<Loan> loans = new ArrayList<>();
 
         try {
-            String sql = "SELECT ID FROM LOANS WHERE USERID = ? AND STATUS = LoanStatus.OPEN.getLoanStatus()";
+            String sql = "SELECT ID FROM LOANS WHERE USER_ID = ? AND STATUS = 'OPEN'";
 
             PreparedStatement stmt2 = conn.prepareStatement(sql);
             stmt2.setInt(1, userId);
@@ -687,7 +687,7 @@ public class DBManager {
     public Transaction getTransaction(int id) {
         Transaction t = null;
         try {
-            String sql = "SELECT ID, DATE, TYPE ,AMOUNT, CURRENCY, USERID, ACCOUNTID, TARGETACCOUNTID, TARGETUSERID, COLLATERAL FROM TRANSACTIONS WHERE ID = ?";
+            String sql = "SELECT ID, DATE, TYPE ,AMOUNT, CURRENCY, USERID, ACCT_ID, TARGETACCOUNTID, TARGETUSERID, COLLATERAL FROM TRANSACTIONS WHERE ID = ?";
 
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);

@@ -67,10 +67,10 @@ public class Customer extends User {
 
 
 	//check why currency is required as input parameter
-	public List<SavingsAccount> getSavingsAccount(String currency) {
+	public List<SavingsAccount> getSavingsAccount() {
 		List<SavingsAccount> sa = new ArrayList<>();
 		for (Account a: this.accounts) {
-			if (a.getAccountType() == AccountType.SAVINGS && a.getCurrency() == currency) {
+			if (a.getAccountType() == AccountType.SAVINGS) {
 				sa.add((SavingsAccount)a);
 			}
 		}

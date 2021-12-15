@@ -7,6 +7,8 @@ public class SavingsAccountCreation extends AccountCreation {
         }
         else{
             SavingsAccount account = (SavingsAccount) db.addAccount(user.getUserId(),openBalance,currency,AccountType.SAVINGS.getAccountType());
+            Customer c = (Customer)user;
+            c.addAccount(account);
             db.addTransaction(TransactionType.OPENACCOUNT,user.getUserId(),account.getAccountId(),openBalance,currency,-1,-1,null);
             if(account!= null)
                 return true;

@@ -56,7 +56,9 @@ public class RequestLoanDialog extends JDialog {
 
     private void onOK() {
         // add your code here
-        CurrencyType currencyType = (CurrencyType) currencyCombo.getItemAt(currencyCombo.getSelectedIndex());
+        //CurrencyType currencyType = (CurrencyType) currencyCombo.getItemAt(currencyCombo.getSelectedIndex());
+        String currency = (String) currencyCombo.getItemAt(currencyCombo.getSelectedIndex());
+        CurrencyType currencyType = CurrencyType.getEnum(currency);
         double amount = Double.valueOf(amountSpinner.getValue().toString());
         if(!bank.requestLoan(currencyType, amount, collateralField.getText())) {
             JOptionPane.showMessageDialog(contentPane, "Failed to request a loan.");

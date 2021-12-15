@@ -13,7 +13,7 @@ public class TransferDialog extends JDialog {
     private Bank bank;
 
     public TransferDialog(Bank bank) {
-
+        this.bank = bank;
         initialize();
         setContentPane(contentPane);
         setModal(true);
@@ -57,15 +57,29 @@ public class TransferDialog extends JDialog {
         Account fromAccount = null;
         Account toAccount = null;
         Customer customer = (Customer) bank.getLoggedUser();
-//        switch (from) {
-//            case "SAVINGS":
-//                fromAccount = customer.ge
-//            case "CHECKING":
-//                fromAccount =
-//            case "SECURITIES":
-//                fromAccount =
-//        }
-//        bank.transfer()
+        if(from.equalsIgnoreCase(AccountType.SAVINGS.getAccountType()))
+            fromAccount = customer.getSavingsAccount().get(0);
+        else if(from.equalsIgnoreCase(AccountType.CHECKING.getAccountType())){
+            for(Account a:customer.getAccounts()){
+                if(a.getAccountType().equals(AccountType.CHECKING))
+                    fromAccount = (CheckingsAccount) a;
+            }
+        }
+        else
+            fromAccount = customer.getCustomerSecurityAcct();
+
+        if(to.equalsIgnoreCase(AccountType.SAVINGS.getAccountType()))
+            toAccount = customer.getSavingsAccount().get(0);
+        else if(to.equalsIgnoreCase(AccountType.CHECKING.getAccountType())){
+            for(Account a:customer.getAccounts()){
+                if(a.getAccountType().equals(AccountType.CHECKING))
+                    toAccount = a;
+            }
+        }
+        else
+            toAccount = customer.getCustomerSecurityAcct();
+        bank.withdraw(fromAccount, amount);
+        bank.deposit(toAccount, amount);
         dispose();
     }
 

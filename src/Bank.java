@@ -161,6 +161,7 @@ public class Bank {
     //deposit amount to a bank account
     protected boolean deposit(Account account, double amount) {
         if(dbManger.updateBalance(account.getAccountId(),account.getBalance()+amount)){
+            account.setBalance(account.getBalance()+(amount));
             Transaction t = dbManger.addTransaction(TransactionType.DEPOSIT, account.getUserId(), account.getAccountId(), amount, account.getCurrency(), -1, -1, null);
             Customer c = (Customer) this.getLoggedUser();
             c.addTransaction(t);
@@ -173,12 +174,14 @@ public class Bank {
     //withdraw an amount from bank account
     protected boolean withdraw(Account account, double amount) {
         if(account.getBalance()>= amount+(BankConstants.getWithDrawFeePercentage()*amount)){
-            double withdrawMoney = account.getBalance()-(amount+(BankConstants.getWithDrawFeePercentage()*amount));
+            double withdrawMoney = account.getBalance()-(amount);
             if(dbManger.updateBalance(account.getAccountId(),withdrawMoney)){
+                account.setBalance(account.getBalance()-(amount));
                 Transaction t = dbManger.addTransaction(TransactionType.WITHDRAWAL, account.getUserId(), account.getAccountId(), amount, account.getCurrency(), -1, -1, null);
                 Customer c = (Customer) this.getLoggedUser();
                 c.addTransaction(t);
-                chargeFee(this.getLoggedUser().getUserId(),account,BankConstants.getWithDrawFeePercentage()*amount,TransactionType.CHARGEFEE);
+                chargeFee(this.getLoggedUser().getUserId(),account,account.getBalance()-(BankConstants.getWithDrawFeePercentage()*amount),TransactionType.CHARGEFEE);
+                account.setBalance(account.getBalance()-(BankConstants.getWithDrawFeePercentage()*amount));
                 return true;
             }
             else
@@ -228,18 +231,16 @@ public class Bank {
         return false;
     }
 
+    //add a loan to user
     public boolean requestLoan(CurrencyType currency, double loanAmount, String collateral) {
-        if (loggedUser.getUserRole() == UserRoles.CUSTOMER) {
-            Customer customer = new Customer(loggedUser, dbManger.getUserAccounts(loggedUser.getUserId()),
-                    dbManger.getAllUserLoans(loggedUser.getUserId()),
-                    dbManger.getAllUserTransaction(loggedUser.getUserId()),dbManger.getAllStocksPurchased(loggedUser.getUserId()));
-            Loan loan = dbManger.addLoan(customer, loanAmount, currency.getCurrencyName(), collateral);
-            if (loan != null) {
-                customer.addLoan(loan);
-                return true;
+        Customer c = (Customer)this.getLoggedUser();
+        Loan loan = dbManger.addLoan(c, loanAmount, currency.getCurrencyName(), collateral);
+        if (loan != null) {
+            c.addLoan(loan);
+            return true;
             }
-        }
-        return false;
+        else
+            return false;
     }
 
     public List<Customer> getAllCustomers() {
