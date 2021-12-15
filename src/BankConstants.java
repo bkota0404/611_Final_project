@@ -12,8 +12,10 @@ public class BankConstants {
 	private static double withDrawFeePercentage = 0.01;
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	public static final  String BANK_NAME = "CPK Bank";
+	public static final String BANK_FILE_PATH = System.getProperty("user.dir") + "/src/data/";
 
-	
+
+
 	public static double getOpenAccountFee() {
 		return openAccountFee;
 	}

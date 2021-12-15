@@ -44,9 +44,15 @@ public class Bank {
         return bankName;
     }
 
-    public void startOperations(){
+    public void startOperations() {
         //method to begin displaying login screen etc
         initializeBank();
+        Music player = new Music();
+        try{
+            player.playMusic(BankConstants.BANK_FILE_PATH+"WelcomeMessage.wav");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         new LoginScreen(this);
     }
 
