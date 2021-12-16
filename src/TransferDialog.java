@@ -11,9 +11,11 @@ public class TransferDialog extends JDialog {
     private JSpinner amountSpinner;
     private JLabel tipLabel;
     private Bank bank;
+    private ItemScreen parentScreen;
 
-    public TransferDialog(Bank bank) {
+    public TransferDialog(Bank bank, ItemScreen parentScreen) {
         this.bank = bank;
+        this.parentScreen = parentScreen;
         initialize();
         setContentPane(contentPane);
         setModal(true);
@@ -80,6 +82,7 @@ public class TransferDialog extends JDialog {
             toAccount = customer.getCustomerSecurityAcct();
         bank.withdraw(fromAccount, amount);
         bank.deposit(toAccount, amount);
+        parentScreen.refresh();
         dispose();
     }
 

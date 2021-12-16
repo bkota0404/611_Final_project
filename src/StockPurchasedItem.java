@@ -8,7 +8,7 @@ public class StockPurchasedItem extends UIItem{
     private JLabel stockID;
     private JLabel numOfShares;
 
-    public StockPurchasedItem(StocksPurchased stock, Screen parentScreen) {
+    public StockPurchasedItem(StocksPurchased stock, ItemScreen parentScreen) {
         super(parentScreen);
 
         userID.setText(String.valueOf(stock.getUserID()));

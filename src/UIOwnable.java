@@ -1,5 +1,5 @@
 public interface UIOwnable {
 
-    void setParentScreen(Screen screen);
+    void setParentScreen(ItemScreen screen);
 
 }

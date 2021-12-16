@@ -49,7 +49,7 @@ public class AccountScreen extends ItemScreen{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                new TransferDialog(bank);
+                transferDialog();
             }
         });
     }
@@ -62,6 +62,10 @@ public class AccountScreen extends ItemScreen{
 
     private void createAccountDialog() {
         new CreateAccountDialog(bank, this);
+    }
+
+    private void transferDialog() {
+        new TransferDialog(bank, this);
     }
 
 

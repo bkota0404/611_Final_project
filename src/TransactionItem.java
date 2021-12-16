@@ -8,7 +8,7 @@ public class TransactionItem extends UIItem{
     private JLabel amount;
     private JLabel date;
 
-    public TransactionItem(Transaction transaction, Screen parentScreen) {
+    public TransactionItem(Transaction transaction, ItemScreen parentScreen) {
         super(parentScreen);
 
         transactionType.setText(transaction.getTransactionType().getTransactionName());

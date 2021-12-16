@@ -9,7 +9,7 @@ public class CustomerItem extends UIItem{
     private JLabel userID;
     private JLabel name;
 
-    public CustomerItem(Customer customer, Screen parentScreen) {
+    public CustomerItem(Customer customer, ItemScreen parentScreen) {
         super(parentScreen);
 
         userID.setText(String.valueOf(customer.getUserId()));

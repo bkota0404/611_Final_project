@@ -14,7 +14,7 @@ public class AccountItem extends UIItem{
     private JButton withdrawlDepositButton;
     private Bank bank;
 
-    public AccountItem(Bank bank, Account account, Screen parentScreen) {
+    public AccountItem(Bank bank, Account account, ItemScreen parentScreen) {
         super(parentScreen);
 
         this.bank = bank;
@@ -26,6 +26,7 @@ public class AccountItem extends UIItem{
                 super.mouseClicked(e);
                 if(bank.closeAccount(account)) {
                     JOptionPane.showMessageDialog(mainPanel, "Succeed to close the account.");
+                    parentScreen.refresh();
                 }
                 else {
                     JOptionPane.showMessageDialog(mainPanel, "Balance not enough to close account.");
@@ -36,7 +37,7 @@ public class AccountItem extends UIItem{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                new WithDrawlDepositDialog(bank, account);
+                new WithDrawlDepositDialog(bank, account, parentScreen);
             }
         });
     }

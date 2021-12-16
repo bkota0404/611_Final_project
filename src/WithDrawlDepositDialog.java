@@ -13,8 +13,9 @@ public class WithDrawlDepositDialog extends JDialog {
     private JLabel tip2;
     private Bank bank;
     private Account account;
+    private ItemScreen parentScreen;
 
-    public WithDrawlDepositDialog(Bank bank, Account account) {
+    public WithDrawlDepositDialog(Bank bank, Account account, ItemScreen parentScreent) {
         amountSpinner.setModel(new SpinnerNumberModel(100, 10, 1000000000, 1));
         tip1.setText("1. " + BankConstants.getWithDrawFeePercentage() + " of amount will be charged for every time withdrawal is made.");
         tip2.setText("2. 10 at least for every time deposit or withdraw.");
@@ -24,6 +25,7 @@ public class WithDrawlDepositDialog extends JDialog {
 
         this.bank = bank;
         this.account = account;
+        this.parentScreen = parentScreent;
 
         buttonCancel.addMouseListener(new MouseAdapter() {
             @Override
@@ -56,6 +58,7 @@ public class WithDrawlDepositDialog extends JDialog {
             JOptionPane.showMessageDialog(mainPanel, "Failed to deposit.");
             return;
         }
+        parentScreen.refresh();
         dispose();
     }
 
@@ -66,6 +69,7 @@ public class WithDrawlDepositDialog extends JDialog {
             JOptionPane.showMessageDialog(mainPanel, "Failed to withdraw.");
             return;
         }
+        parentScreen.refresh();
         dispose();
     }
 

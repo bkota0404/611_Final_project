@@ -3,14 +3,14 @@ import javax.swing.*;
 public abstract class UIItem extends JFrame implements UIOwnable{
 
 //    protected JPanel mainPanel;
-    protected Screen parentScreen;
+    protected ItemScreen parentScreen;
 
-    public UIItem(Screen parentScreen) {
+    public UIItem(ItemScreen parentScreen) {
         this.parentScreen = parentScreen;
     }
 
     @Override
-    public void setParentScreen(Screen parentScreen) {
+    public void setParentScreen(ItemScreen parentScreen) {
         this.parentScreen = parentScreen;
     }
 }

@@ -11,7 +11,7 @@ public class LoanItem extends UIItem{
     private JLabel status;
     private JButton payBackLoanButton;
 
-    public LoanItem(Bank bank, Loan loan, Screen parentScreen) {
+    public LoanItem(Bank bank, Loan loan, ItemScreen parentScreen) {
         super(parentScreen);
 
         amount.setText(String.valueOf(loan.getAmount()));
