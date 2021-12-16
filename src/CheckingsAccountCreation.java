@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class CheckingsAccountCreation extends AccountCreation {
 
     public boolean createCheckingAccount(User user, double openBalance, String currency, DBManager db) {
@@ -17,4 +19,13 @@ public class CheckingsAccountCreation extends AccountCreation {
 
     }
 
+    @Override
+    public void delete(int id) {
+
+    }
+
+    @Override
+    public List getAllList() {
+        return null;
+    }
 }

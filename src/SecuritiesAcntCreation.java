@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class SecuritiesAcntCreation extends AccountCreation {
 
     public boolean createSecuritiesAccount(User user, double openBalance, String currency, DBManager db) {
@@ -9,5 +11,15 @@ public class SecuritiesAcntCreation extends AccountCreation {
             return true;
         else
             return false;
+    }
+
+    @Override
+    public void delete(int id) {
+
+    }
+
+    @Override
+    public List getAllList() {
+        return null;
     }
 }

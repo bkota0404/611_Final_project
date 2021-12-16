@@ -277,14 +277,6 @@ public class Bank {
             return false;
     }
 
-    public List<Customer> getAllCustomers() {
-        return dbManger.getAllCustomers();
-    }
-
-    public List<Transaction> getDailyTransactions() {
-        return dbManger.get24hrTransactionList();
-    }
-
 
 
 }

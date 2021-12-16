@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class SavingsAccountCreation extends AccountCreation {
 
 
@@ -16,4 +18,14 @@ public class SavingsAccountCreation extends AccountCreation {
                 return false;
         }
         }
+
+    @Override
+    public void delete(int id) {
+
+    }
+
+    @Override
+    public List getAllList() {
+        return null;
+    }
 }
