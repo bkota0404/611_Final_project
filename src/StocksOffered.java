@@ -15,6 +15,31 @@ public class StocksOffered implements BankRepository{
     private List<String> stockPrices;
     private List<String> stockSymbols;
     private List<String> stockNames;
+
+    public List<String> getStockPrices() {
+        return stockPrices;
+    }
+
+    public void setStockPrices(List<String> stockPrices) {
+        this.stockPrices = stockPrices;
+    }
+
+    public List<String> getStockSymbols() {
+        return stockSymbols;
+    }
+
+    public void setStockSymbols(List<String> stockSymbols) {
+        this.stockSymbols = stockSymbols;
+    }
+
+    public List<String> getStockNames() {
+        return stockNames;
+    }
+
+    public void setStockNames(List<String> stockNames) {
+        this.stockNames = stockNames;
+    }
+
     @Override
     public void delete(int id) {
 
@@ -72,9 +97,6 @@ public class StocksOffered implements BankRepository{
                         stockNames.add(line.split(": ")[1].split(",")[0].replace("\"", ""));
                     }
                 }
-                //System.out.println(Arrays.toString(stockPrices.toArray()));
-                //System.out.println(Arrays.toString(stockNames.toArray()));
-                //System.out.println(Arrays.toString(stockSymbols.toArray()));
                 ListToFile fileWriter = new ListToFile();
                 fileWriter.addToFile(stockNames,stockSymbols,stockPrices,"Stocks.csv",false);
             } catch (IOException e) {
