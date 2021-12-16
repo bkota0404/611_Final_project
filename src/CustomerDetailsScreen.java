@@ -10,8 +10,8 @@ public class CustomerDetailsScreen extends ItemScreen{
     private Customer customer;
 
 
-    public CustomerDetailsScreen(Customer customer) {
-        super(null);
+    public CustomerDetailsScreen(Bank bank, Customer customer) {
+        super(bank);
         this.customer = customer;
 
         userID.setText(String.valueOf(customer.getUserId()));
@@ -56,7 +56,7 @@ public class CustomerDetailsScreen extends ItemScreen{
         if(customer.getCustomerSecurityAcct() != null)
             if(customer.getCustomerSecurityAcct().getStocksPurchased() != null)
                 for(StocksPurchased stock: customer.getCustomerSecurityAcct().getStocksPurchased()) {
-                    StockPurchasedItem stockPurchasedItem = new StockPurchasedItem(bank, stock, this);
+                    StockPurchasedItem stockPurchasedItem = new StockPurchasedItem(customer, bank, stock, this);
                     stockPurchasedItem.getSellStockButton().setEnabled(false);
                     stockPanel.add(stockPurchasedItem.getMainPanel());
                 }

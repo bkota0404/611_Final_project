@@ -37,6 +37,7 @@ public class StockManagementItem {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+//                bank.getStocksOffered().
 //                if(bank.cancelStock()) {
 //                    parentScreen.refresh();
 //                }
@@ -45,5 +46,9 @@ public class StockManagementItem {
 //                }
             }
         });
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
 }

@@ -44,6 +44,9 @@ public class AdjustPriceDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        pack();
+        setVisible(true);
     }
 
     private void onOK() {

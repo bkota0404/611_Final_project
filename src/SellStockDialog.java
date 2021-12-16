@@ -9,10 +9,12 @@ public class SellStockDialog extends JDialog {
     private ItemScreen parentScreen;
     private Customer customer;
     private StocksPurchased stocksPurchased;
+    private Bank bank;
 
-    public SellStockDialog(StocksPurchased stocksPurchased, Customer customer, ItemScreen parentScreen) {
+    public SellStockDialog(StocksPurchased stocksPurchased, Bank bank, ItemScreen parentScreen) {
 
-        this.customer = customer;
+        this.bank = bank;
+        this.customer = (Customer) bank.getLoggedUser();
         this.parentScreen = parentScreen;
         this.stocksPurchased = stocksPurchased;
         amountSpinner.setModel(new SpinnerNumberModel(0, 0, stocksPurchased.getNumOfShares(), 1));
@@ -46,13 +48,16 @@ public class SellStockDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        pack();
+        setVisible(true);
     }
 
     private void onOK() {
         // add your code here
         int number = Integer.parseInt(amountSpinner.getValue().toString());
         Stocks stock = stocksPurchased.getStockPurchased();
-        if(!customer.getCustomerSecurityAcct().sellStocks(customer, stock.getStockID(), number, new DBManager())) {
+        if(!customer.getCustomerSecurityAcct().sellStocks(customer, stock.getStockID(), number, bank.getDbManger())) {
             JOptionPane.showMessageDialog(this, "Failed to sell the stock.");
             return;
         }

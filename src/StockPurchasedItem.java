@@ -5,25 +5,24 @@ import java.awt.event.MouseEvent;
 public class StockPurchasedItem extends UIItem{
 
     private JPanel mainPanel;
-    private JLabel userID;
-    private JLabel accountID;
-    private JLabel stockID;
+    private JLabel name;
+    private JLabel price;
+    private JLabel symbol;
     private JLabel numOfShares;
     private JButton sellStockButton;
 
-    public StockPurchasedItem(Bank bank, StocksPurchased stock, ItemScreen parentScreen) {
+    public StockPurchasedItem(Customer customer, Bank bank, StocksPurchased stock, ItemScreen parentScreen) {
         super(parentScreen);
 
-        Customer customer = (Customer) bank.getLoggedUser();
-        userID.setText(String.valueOf(stock.getUserID()));
-        accountID.setText(String.valueOf(stock.getAccountID()));
-        stockID.setText(String.valueOf(stock.getStockPurchased().getStockID()));
+        name.setText(stock.getStockPurchased().getStockName());
+        price.setText(String.valueOf(stock.getStockPurchased().getStockPrice()));
+        symbol.setText(stock.getStockPurchased().getStockSymbol());
         numOfShares.setText(String.valueOf(stock.getNumOfShares()));
         sellStockButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                new SellStockDialog(stock, customer, parentScreen);
+                new SellStockDialog(stock, bank, parentScreen);
             }
         });
     }

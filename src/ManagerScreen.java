@@ -17,7 +17,7 @@ public class ManagerScreen extends Screen {
         manager.setText(bank.getLoggedUser().getUserName());
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 400);
+        setSize(600, 500);
         setLocation(400, 200);
         setVisible(true);
 
@@ -26,6 +26,7 @@ public class ManagerScreen extends Screen {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 bank.logout();
+                close();
             }
         });
 

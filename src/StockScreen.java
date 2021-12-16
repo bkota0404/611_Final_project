@@ -46,7 +46,7 @@ public class StockScreen extends ItemScreen{
 //                System.out.println(securitiesAccount.getStocksPurchased().size());
                 if(securitiesAccount.getStocksPurchased().size() > 0) {
                     for(StocksPurchased stocksPurchased: securitiesAccount.getStocksPurchased()) {
-                        stockPurchasedPanel.add(new StockPurchasedItem(bank, stocksPurchased, this).getMainPanel());
+                        stockPurchasedPanel.add(new StockPurchasedItem((Customer) bank.getLoggedUser(), bank, stocksPurchased, this).getMainPanel());
                     }
                 }
         }

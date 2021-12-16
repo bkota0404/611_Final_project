@@ -21,7 +21,7 @@ public class CheckCustomersScreen extends ItemScreen{
         List<Customer> customers = bank.getAllCustomers();
         if(customers.size() > 0) {
             for (Customer customer : customers) {
-                customerPanel.add(new CustomerItem(customer, this).getMainPanel());
+                customerPanel.add(new CustomerItem(bank, customer, this).getMainPanel());
             }
         }
     }

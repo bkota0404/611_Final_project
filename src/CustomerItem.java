@@ -9,7 +9,7 @@ public class CustomerItem extends UIItem{
     private JLabel userID;
     private JLabel name;
 
-    public CustomerItem(Customer customer, ItemScreen parentScreen) {
+    public CustomerItem(Bank bank, Customer customer, ItemScreen parentScreen) {
         super(parentScreen);
 
         userID.setText(String.valueOf(customer.getUserId()));
@@ -18,7 +18,7 @@ public class CustomerItem extends UIItem{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                new CustomerDetailsScreen(customer);
+                new CustomerDetailsScreen(bank, customer);
             }
         });
     }
