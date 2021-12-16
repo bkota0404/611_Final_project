@@ -68,6 +68,7 @@ public class DBManager {
                     + "	ACCT_ID INTEGER NOT NULL,\n"
                     + "	USER_ID INTEGER NOT NULL,\n"
                     + "	DESC TEXT NOT NULL,\n"
+                    + "	NUMBER INTEGER NOT NULL,\n"
                     + "	SYMBOL INTEGER NOT NULL,\n"
                     + "	PRICE REAL NOT NULL,\n"
                     + "	TOTAL_VALUE REAL NOT NULL,\n"
