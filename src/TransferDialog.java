@@ -80,7 +80,10 @@ public class TransferDialog extends JDialog {
         }
         else
             toAccount = customer.getCustomerSecurityAcct();
-        bank.transfer(fromAccount,toAccount,amount);
+        if(bank.transfer(fromAccount,toAccount,amount))
+            JOptionPane.showMessageDialog(contentPane, "Transfer successful");
+        else
+            JOptionPane.showMessageDialog(contentPane, "Transfer unsuccessful");
         parentScreen.refresh();
         dispose();
     }
