@@ -217,6 +217,8 @@ public class Bank {
         ((Customer) this.getLoggedUser()).addTransaction(t);
     }
 
+
+    //transfer within the user account
     public boolean transfer(Account fromAccount, Account toAccount, double amount) {
         if (!fromAccount.getCurrency().equals(toAccount.getCurrency())) {
             return false;
@@ -232,6 +234,7 @@ public class Bank {
         return true;
     }
 
+    //paying loan installments and handling adding transactions
     public boolean payBackLoan(Loan loan, Account account, double amount) {
         if (account.getBalance() < amount) {
             return false;
@@ -244,9 +247,14 @@ public class Bank {
         if (loanAmount == realAmount) {
             loan.setLoanStatus(LoanStatus.CLOSE);
             dbManger.updateLoanClosure(loan.getLoanID());
-            Transaction t = dbManger.addTransaction(TransactionType.LOANCLOSE,this.getLoggedUser().getUserId(),((Customer) this.getLoggedUser()).getSavingsAccount().get(0).getAccountId(),loanAmount,((Customer) this.getLoggedUser()).getSavingsAccount().get(0).getCurrency(),-1,-1,null);
+            Transaction t = dbManger.addTransaction(TransactionType.LOANCLOSE,this.getLoggedUser().getUserId(),((Customer) this.getLoggedUser()).getSavingsAccount().get(0).getAccountId(),amount,((Customer) this.getLoggedUser()).getSavingsAccount().get(0).getCurrency(),-1,-1,null);
             ((Customer) this.getLoggedUser()).addTransaction(t);
         }
+        else{
+            Transaction t = dbManger.addTransaction(TransactionType.LOANINSTALLMENT,this.getLoggedUser().getUserId(),((Customer) this.getLoggedUser()).getSavingsAccount().get(0).getAccountId(),amount,((Customer) this.getLoggedUser()).getSavingsAccount().get(0).getCurrency(),-1,-1,null);
+            ((Customer) this.getLoggedUser()).addTransaction(t);
+        }
+
         return true;
     }
 
@@ -272,12 +280,5 @@ public class Bank {
         return dbManger.get24hrTransactionList();
     }
 
-    public boolean isQualifiedForSecurities() {
-        Account savingsAccount = dbManger.getUserAccountByType((Customer)this.getLoggedUser(),AccountType.SAVINGS);
-        if(savingsAccount.getBalance() > BankConstants.getMinOpenSavingAccountBalanceForSecurities()){
-            return true;
-        }
-        return false;
-    }
 
 }

@@ -104,4 +104,13 @@ public class Customer extends User {
 		return s;
 	}
 
+	//check if the customer is eligible for Securities account
+	public boolean isQualifiedForSecurities() {
+		Account savingsAccount = this.getSavingsAccount().get(0);
+		if(savingsAccount.getBalance() > BankConstants.getMinOpenSavingAccountBalanceForSecurities()){
+			return true;
+		}
+		return false;
+	}
+
 }
