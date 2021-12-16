@@ -231,6 +231,9 @@ public class Bank {
         if(!dbManger.transferMoney(fromAccount.getAccountId(), toAccount.getAccountId(), fromAccount.getBalance(), toAccount.getBalance())) {
             return false;
         }
+        Transaction t = dbManger.addTransaction(TransactionType.ACCOUNTTRANSFER,fromAccount.getUserId(),fromAccount.getAccountId(),amount,fromAccount.getCurrency(),toAccount.getUserId(),toAccount.getAccountId(),null);
+        Customer c = (Customer) dbManger.getUserById(fromAccount.getUserId());
+        c.addTransaction(t);
         return true;
     }
 
@@ -279,6 +282,7 @@ public class Bank {
     public List<Transaction> getDailyTransactions() {
         return dbManger.get24hrTransactionList();
     }
+
 
 
 }

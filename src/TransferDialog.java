@@ -80,8 +80,7 @@ public class TransferDialog extends JDialog {
         }
         else
             toAccount = customer.getCustomerSecurityAcct();
-        bank.withdraw(fromAccount, amount);
-        bank.deposit(toAccount, amount);
+        bank.transfer(fromAccount,toAccount,amount);
         parentScreen.refresh();
         dispose();
     }
