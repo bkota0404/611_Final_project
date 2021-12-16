@@ -29,14 +29,19 @@ public class LoanScreen extends ItemScreen{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                new RequestLoanDialog(bank);
+                requestLoanDialog();
             }
         });
     }
 
     @Override
     public void refresh() {
+        close();
+        new LoanScreen(bank);
+    }
 
+    private void requestLoanDialog() {
+        new RequestLoanDialog(bank, this);
     }
 
 

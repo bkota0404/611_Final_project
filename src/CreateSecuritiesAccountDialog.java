@@ -1,34 +1,24 @@
 import javax.swing.*;
 import java.awt.event.*;
 
-public class PayBackLoanDialog extends JDialog {
+public class CreateSecuritiesAccountDialog extends JDialog {
     private JPanel contentPane;
-    private JButton payBackButton;
+    private JButton buttonOK;
     private JButton buttonCancel;
     private JSpinner amountSpinner;
-    private JComboBox accountCombo;
     private Bank bank;
-    private Loan loan;
-    private ItemScreen parentScreen;
 
-    public PayBackLoanDialog(Bank bank, Loan loan, ItemScreen parentScreen) {
+    public CreateSecuritiesAccountDialog(Bank bank) {
 
         this.bank = bank;
-        this.loan = loan;
-        this.parentScreen = parentScreen;
-        setLocation(400, 200);
-        double loanAmount = loan.getAmount();
-        Customer customer = (Customer) bank.getLoggedUser();
-        for(Account account: customer.getAccounts()) {
-            accountCombo.addItem(account);
-        }
-        amountSpinner.setModel(new SpinnerNumberModel(loanAmount, 0, loanAmount, 1));
+        int min = (int) BankConstants.getMinOpenSecuritiesAccountBalance();
+        amountSpinner.setModel(new SpinnerNumberModel(2000, min, 1000000, 1));
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(payBackButton);
+        getRootPane().setDefaultButton(buttonOK);
+        setLocation(400, 200);
 
-
-        payBackButton.addActionListener(new ActionListener() {
+        buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
@@ -61,19 +51,10 @@ public class PayBackLoanDialog extends JDialog {
 
     private void onOK() {
         // add your code here
+        Customer customer = (Customer) bank.getLoggedUser();
         double amount = Double.valueOf(amountSpinner.getValue().toString());
-        Account account = (Account) accountCombo.getItemAt(accountCombo.getSelectedIndex());
-        double pendingLoanAmt = loan.getAmount();
-        if(bank.payBackLoan(loan, account, amount)) {
-            if(pendingLoanAmt == amount)
-                JOptionPane.showMessageDialog(contentPane, "Loan paid in full.");
-            else
-                JOptionPane.showMessageDialog(contentPane, "Paying loan installment successful.");
-        }
-        else {
-            JOptionPane.showMessageDialog(contentPane, "Failed to pay back loan.");
-        }
-        parentScreen.refresh();
+        bank.createAccount(CurrencyType.USD, amount, AccountType.SECURITIES);
+        new StockScreen(bank);
         dispose();
     }
 

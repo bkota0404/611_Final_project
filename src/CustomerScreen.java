@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 public class CustomerScreen extends Screen{
     private JPanel mainPanel;
@@ -17,6 +18,8 @@ public class CustomerScreen extends Screen{
         customer.setText(bank.getLoggedUser().getName());
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Customer customer = (Customer) bank.getLoggedUser();
+        viewStockButton.setEnabled(customer.isQualifiedForSecurities());
         setSize(500, 400);
         setLocation(400, 200);
         setVisible(true);
@@ -36,7 +39,6 @@ public class CustomerScreen extends Screen{
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 new AccountScreen(bank);
-//                close();
             }
         });
         viewTransactionsButton.addMouseListener(new MouseAdapter() {
@@ -57,18 +59,38 @@ public class CustomerScreen extends Screen{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                new StockScreen(bank);
+                if(customer.isQualifiedForSecurities())
+                    checkFirstTimeEnterStock();
+            }
+        });
+        mainPanel.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                return;
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                viewStockButton.setEnabled(customer.isQualifiedForSecurities());
             }
         });
     }
 
 
+    private void refresh() {
+        close();
+        new CustomerScreen(bank);
+    }
 
-//    private void createAccountScreen() {
-//        Customer customer = (Customer) bank.getLoggedUser();
-//
-//    }
 
-
+    private void checkFirstTimeEnterStock() {
+        Customer customer = (Customer) bank.getLoggedUser();
+        if(customer.getCustomerSecurityAcct() == null) {
+            new CreateSecuritiesAccountDialog(bank);
+        }
+        else {
+            new StockScreen(bank);
+        }
+    }
 
 }

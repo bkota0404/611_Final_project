@@ -1,29 +1,22 @@
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class RequestLoanDialog extends JDialog {
+public class SellStockDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JSpinner amountSpinner;
-    private JTextField collateralField;
-    private JComboBox currencyCombo;
-    private Bank bank;
     private ItemScreen parentScreen;
+    private Customer customer;
+    private StocksPurchased stocksPurchased;
 
-    public RequestLoanDialog(Bank bank, ItemScreen parentScreen) {
+    public SellStockDialog(StocksPurchased stocksPurchased, Customer customer, ItemScreen parentScreen) {
 
-        this.bank = bank;
+        this.customer = customer;
         this.parentScreen = parentScreen;
-        amountSpinner.setModel(new SpinnerNumberModel(100, 50, 1000000, 1));
-        List<String> currencyTypeList = Stream.of(CurrencyType.values()).map(CurrencyType::name).collect(Collectors.toList());
-        for(String type: currencyTypeList)
-            currencyCombo.addItem(type);
+        this.stocksPurchased = stocksPurchased;
+        amountSpinner.setModel(new SpinnerNumberModel(0, 0, stocksPurchased.getNumOfShares(), 1));
         setContentPane(contentPane);
-        setLocation(400, 200);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
@@ -53,20 +46,16 @@ public class RequestLoanDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        pack();
-        setVisible(true);
     }
 
     private void onOK() {
         // add your code here
-        //CurrencyType currencyType = (CurrencyType) currencyCombo.getItemAt(currencyCombo.getSelectedIndex());
-        String currency = (String) currencyCombo.getItemAt(currencyCombo.getSelectedIndex());
-        CurrencyType currencyType = CurrencyType.getEnum(currency);
-        double amount = Double.valueOf(amountSpinner.getValue().toString());
-        if(!bank.requestLoan(currencyType, amount, collateralField.getText())) {
-            JOptionPane.showMessageDialog(contentPane, "Failed to request a loan.");
-            return;
-        }
+        int number = Integer.parseInt(amountSpinner.getValue().toString());
+        //
+//        if(!customer.sellStock(stocksPurchased, number)) {
+//            JOptionPane.showMessageDialog(this, "Failed to sell the stock.");
+//            return;
+//        }
         parentScreen.refresh();
         dispose();
     }
@@ -75,4 +64,5 @@ public class RequestLoanDialog extends JDialog {
         // add your code here if necessary
         dispose();
     }
+
 }

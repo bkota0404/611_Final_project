@@ -22,7 +22,7 @@ public class LoanItem extends UIItem{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                new PayBackLoanDialog(bank, loan);
+                new PayBackLoanDialog(bank, loan, parentScreen);
             }
         });
     }
