@@ -312,11 +312,11 @@ public class DBManager {
 
 
     //add stock into stocks table
-    public void addStocks(String name, String symbol, int numOfStocks, double price, String currency, int userID, int accntID) {
+    public StocksPurchased addStocks(String name, String symbol, int numOfStocks, double price, String currency, int userID, int accntID) {
         String sql = "INSERT INTO STOCKSPURCHASED(STOCK_NAME,SYMBOL,NUMBER,PRICE,CURRENCY,USER_ID,ACCT_ID) VALUES(?,?,?,?,?,?,?)";
-
+        StocksPurchased s =null;
         try {
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            PreparedStatement pstmt = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, name);
             pstmt.setString(2, symbol);
             pstmt.setInt(3, numOfStocks);
@@ -325,9 +325,52 @@ public class DBManager {
             pstmt.setInt(6, userID);
             pstmt.setInt(7, accntID);
             pstmt.execute();
+            ResultSet generatedKeys = pstmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                //int i = generatedKeys.getInt(1);
+                s = getStockPurchasedByID(generatedKeys.getInt(1));
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return s;
+    }
+
+    //Update stocks number
+    public boolean updateStocksPurchasedNumber(int stockId, int number) {
+        if(number == 0){
+            return deleteStocksPurchased(stockId);
+        }
+        else{
+            String sql = "UPDATE STOCKSPURCHASED SET NUMBER = ? WHERE ID = ?";
+            try {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, number);
+                stmt.setInt(2, stockId);
+                stmt.executeUpdate();
+                stmt.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                return false;
+            }
+            return true;
+        }
+    }
+
+    //deleting Account called on close
+    public boolean deleteStocksPurchased(int stockId) {
+        String sql = "DELETE FROM STOCKSPURCHASED WHERE ID = ?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, stockId);
+            stmt.execute();
+            stmt.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     //get the list of all stocks purchased by the user
@@ -359,7 +402,9 @@ public class DBManager {
             stmt2.setInt(1, stockID);
             ResultSet rs = stmt2.executeQuery();
             if(rs.next()){
-                Stocks s = new Stocks(rs.getInt(1),rs.getString(6),rs.getDouble(5),
+                StocksOffered sO = new StocksOffered();
+                double latestPrice = sO.getLatestStockPriceBySymbol(rs.getString(3));
+                Stocks s = new Stocks(rs.getInt(1),rs.getString(6),latestPrice,
                         rs.getString(2),rs.getString(3));
                 stocksPurchased = new StocksPurchased(rs.getInt(7),rs.getInt(8),rs.getInt(4),s);
             }
