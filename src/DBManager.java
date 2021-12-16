@@ -203,7 +203,7 @@ public class DBManager {
             stmt2.setInt(1, id);
             ResultSet rs = stmt2.executeQuery();
 
-            String accType = rs.getString(3);
+            String accType = rs.getString(5);
             switch (accType) {
                 case "SAVINGS":
                     account = new SavingsAccount(
