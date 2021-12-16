@@ -64,14 +64,12 @@ public class DBManager {
             //create stocks table
             sql = "CREATE TABLE IF NOT EXISTS STOCKSPURCHASED (\n"
                     + "	ID INTEGER NOT NULL UNIQUE,\n"
-                    + "	STOCK_NAME TEXT NOT NULL UNIQUE,\n"
+                    + "	STOCK_NAME TEXT NOT NULL,\n"
                     + "	ACCT_ID INTEGER NOT NULL,\n"
                     + "	USER_ID INTEGER NOT NULL,\n"
-                    + "	DESC TEXT NOT NULL,\n"
                     + "	NUMBER INTEGER NOT NULL,\n"
                     + "	SYMBOL INTEGER NOT NULL,\n"
                     + "	PRICE REAL NOT NULL,\n"
-                    + "	TOTAL_VALUE REAL NOT NULL,\n"
                     + "	CURRENCY TEXT NOT NULL,\n"
                     + " PRIMARY KEY (ID AUTOINCREMENT)\n"
                     + ");";
@@ -325,7 +323,7 @@ public class DBManager {
             pstmt.setString(5, currency);
             pstmt.setInt(6, userID);
             pstmt.setInt(7, accntID);
-            pstmt.execute();
+            pstmt.executeUpdate();
             ResultSet generatedKeys = pstmt.getGeneratedKeys();
             if (generatedKeys.next()) {
                 //int i = generatedKeys.getInt(1);
@@ -398,14 +396,14 @@ public class DBManager {
     public StocksPurchased getStockPurchasedByID(int stockID){
         StocksPurchased stocksPurchased = null;
         try {
-            String sql = "SELECT ID, STOCK_NAME, SYMBOL, NUMBER, PRICE, CURRENCY,USER_ID,ACCT_ID FROM ACCOUNTS WHERE ID = ?";
+            String sql = "SELECT ID, STOCK_NAME, SYMBOL, NUMBER, PRICE, CURRENCY,USER_ID,ACCT_ID FROM STOCKSPURCHASED WHERE ID = ?";
             PreparedStatement stmt2 = conn.prepareStatement(sql);
             stmt2.setInt(1, stockID);
             ResultSet rs = stmt2.executeQuery();
             if(rs.next()){
-                StocksOffered sO = new StocksOffered();
-                double latestPrice = sO.getLatestStockPriceBySymbol(rs.getString(3));
-                Stocks s = new Stocks(rs.getInt(1),rs.getString(6),latestPrice,
+                //StocksOffered sO = new StocksOffered();
+                //double latestPrice = sO.getLatestStockPriceBySymbol(rs.getString(3));
+                Stocks s = new Stocks(rs.getInt(1),rs.getString(6),rs.getDouble(5),
                         rs.getString(2),rs.getString(3));
                 stocksPurchased = new StocksPurchased(rs.getInt(7),rs.getInt(8),rs.getInt(4),s);
             }
