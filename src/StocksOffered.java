@@ -1,12 +1,12 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class StocksOffered implements BankRepository{
@@ -24,6 +24,32 @@ public class StocksOffered implements BankRepository{
     public List<Stocks> getAllList() {
         return null;
     }
+
+    //read from csv and return 2dList
+    public ArrayList<ArrayList<String>> get2dListOfStock(){
+        ArrayList<ArrayList<String>> stockList = new ArrayList<ArrayList<String>>();
+        try {
+            Scanner scanner = new Scanner(new File(BankConstants.BANK_FILE_PATH+"data/Stocks.csv"));
+            String line = scanner.nextLine();//to skip first line
+            while (scanner.hasNextLine()){
+                line = scanner.nextLine();
+                String[] content = line.split("\t");//I assume there are no empty columns
+                //System.out.printf("%-15s %s%n",content[0],content[1]);
+                ArrayList<String> eachList = new ArrayList<>();
+                for(String eachCell:content){
+                    eachList.add(eachCell);
+                }
+                stockList.add(eachList);
+            }
+            //System.out.println(stockList.get(1).get(0));
+            scanner.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return stockList;
+    }
+
+
 
     //public static void main(String[] args) {
     public void getStocksAPI(){
