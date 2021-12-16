@@ -1,6 +1,7 @@
 public class ATM {
     private Bank bank;
     private String atmName;
+    private int atmId;
 
     public ATM(String atmName) {
         this.atmName = atmName;

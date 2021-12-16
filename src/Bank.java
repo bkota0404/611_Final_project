@@ -12,6 +12,16 @@ public class Bank {
     private SecuritiesAcntCreation securitiesAccntRepo;
     private UserCreation userCreation;
     private StocksOffered stocksOffered;
+    private CurrenciesOffered currenciesOffered;
+
+    public CurrenciesOffered getCurrenciesOffered() {
+        return currenciesOffered;
+    }
+
+    public void setCurrenciesOffered(CurrenciesOffered currenciesOffered) {
+        this.currenciesOffered = currenciesOffered;
+    }
+
 
     public StocksOffered getStocksOffered() {
         return stocksOffered;
@@ -101,6 +111,8 @@ public class Bank {
         this.setUserCreation(userCreation);
         StocksOffered s = new StocksOffered();
         this.setStocksOffered(s);
+        CurrenciesOffered c = new CurrenciesOffered();
+        this.setCurrenciesOffered(c);
         addBankManager();
     }
 
