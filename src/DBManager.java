@@ -14,7 +14,7 @@ public class DBManager {
         try {
             // db parameters
             //Class.forName("org.sqlite.JDBC");
-            String file = System.getProperty("user.dir") + "/src/database/";
+            String file = BankConstants.BANK_FILE_PATH+"database/";
             System.out.println(file);
             String url = "jdbc:sqlite:" + file +"bankproject.db";
             // create a connection to the database

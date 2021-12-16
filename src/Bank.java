@@ -59,7 +59,7 @@ public class Bank {
         initializeBank();
         Music player = new Music();
         try{
-            player.playMusic(BankConstants.BANK_FILE_PATH+"WelcomeMessage.wav");
+            player.playMusic(BankConstants.BANK_FILE_PATH+"data/WelcomeMessage.wav");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -99,6 +99,8 @@ public class Bank {
         this.setSecuritiesAccntCreation(securitiesAccountRepo);
         UserCreation userCreation = new UserCreation();
         this.setUserCreation(userCreation);
+        StocksOffered s = new StocksOffered();
+        this.setStocksOffered(s);
         addBankManager();
     }
 
