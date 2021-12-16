@@ -594,6 +594,27 @@ public class DBManager {
         return loans;
     }
 
+    //get all open loans for manager view
+    public List<Loan> getAllOpenLoans() {
+        List<Loan> loans = new ArrayList<>();
+
+        try {
+            String sql = "SELECT ID FROM LOANS WHERE STATUS = ?";
+
+            PreparedStatement stmt2 = conn.prepareStatement(sql);
+            stmt2.setString(1, LoanStatus.OPEN.getLoanStatus());
+            ResultSet rs2 = stmt2.executeQuery();
+            while (rs2.next()) {
+                Loan l = getLoan(rs2.getInt(1));
+                loans.add(l);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return loans;
+    }
+
     //update loan amount
     public boolean updateLoanAmount(int id, double amount) {
         String sql = "UPDATE LOANS SET AMOUNT = ? WHERE ID = ?";

@@ -11,6 +11,16 @@ public class Bank {
     private CheckingsAccountCreation checkingsAccountRepo;
     private SecuritiesAcntCreation securitiesAccntRepo;
     private UserCreation userCreation;
+    private StocksOffered stocksOffered;
+
+    public StocksOffered getStocksOffered() {
+        return stocksOffered;
+    }
+
+    public void setStocksOffered(StocksOffered stocksOffered) {
+        this.stocksOffered = stocksOffered;
+    }
+
 
     public UserCreation getUserCreation() {
         return userCreation;
@@ -110,7 +120,7 @@ public class Bank {
     public void addBankManager(){
         User bankManager = dbManger.getUser("admin");
         if(bankManager == null){
-            User isUserCreated = userCreation.createUser("Bank Manager","admin","admin",UserRoles.MANAGER,dbManger);
+            bankManager = userCreation.createUser("Bank Manager","admin","admin",UserRoles.MANAGER,dbManger);
         }
     }
 
