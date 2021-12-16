@@ -35,7 +35,7 @@ public class LoanScreen extends ItemScreen{
     }
 
     @Override
-    public void updateItems() {
+    public void refresh() {
 
     }
 
@@ -43,7 +43,7 @@ public class LoanScreen extends ItemScreen{
     private void updateAccountItems(List<Loan> loans) {
         loanItems.clear();
         loanPane.removeAll();
-        if(loans == null) {
+        if(loans.size() == 0) {
 //            loanItems = new ArrayList<LoanItem>();
             return;
         }

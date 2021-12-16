@@ -15,7 +15,7 @@ public class StockScreen extends ItemScreen{
     }
 
     @Override
-    public void updateItems() {
+    public void refresh() {
 
     }
 

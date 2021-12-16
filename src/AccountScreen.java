@@ -42,7 +42,7 @@ public class AccountScreen extends ItemScreen{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                new CreateAccountDialog(bank);
+                createAccountDialog();
             }
         });
         transferButton.addMouseListener(new MouseAdapter() {
@@ -55,8 +55,13 @@ public class AccountScreen extends ItemScreen{
     }
 
     @Override
-    public void updateItems() {
+    public void refresh() {
+        close();
+        new AccountScreen(bank);
+    }
 
+    private void createAccountDialog() {
+        new CreateAccountDialog(bank, this);
     }
 
 
@@ -70,7 +75,7 @@ public class AccountScreen extends ItemScreen{
     private void updateAccountItems(List<Account> accounts) {
         accountItems.clear();
         accountPanel.removeAll();
-        if(accounts == null) {
+        if(accounts.size() == 0) {
 //            accountItems = new ArrayList<AccountItem>();
 //            System.out.println("no account");
             return;

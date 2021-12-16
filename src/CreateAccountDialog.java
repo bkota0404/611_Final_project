@@ -13,8 +13,10 @@ public class CreateAccountDialog extends JDialog {
     private JSpinner amountSpinner;
     private JLabel tipsLabel;
     private Bank bank;
+    private ItemScreen parentScreen;
 
-    public CreateAccountDialog(Bank bank) {
+    public CreateAccountDialog(Bank bank, ItemScreen parentScreen) {
+        this.parentScreen = parentScreen;
         this.bank = bank;
         setContentPane(contentPane);
         setModal(true);
@@ -94,6 +96,7 @@ public class CreateAccountDialog extends JDialog {
             JOptionPane.showMessageDialog(contentPane, "Failed to create the account.");
             return;
         }
+        parentScreen.refresh();
         dispose();
     }
 

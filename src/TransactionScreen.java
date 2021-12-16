@@ -1,11 +1,10 @@
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionScreen extends ItemScreen{
     private JPanel mainPanel;
-    private JPanel transactionPane;
+    private JPanel transactionPanel;
     private JLabel customer;
     private List<TransactionItem> transactionItems;
 
@@ -13,29 +12,28 @@ public class TransactionScreen extends ItemScreen{
         super(bank);
 
         transactionItems = new ArrayList<TransactionItem>();
-        Customer customer1 = (Customer)bank.getLoggedUser();
+        transactionPanel.setLayout(new BoxLayout(transactionPanel, BoxLayout.Y_AXIS));
+        Customer customer1 = (Customer) bank.getLoggedUser();
         updateTransactionItems(customer1.getTransactions());
-        transactionPane.setLayout(new BoxLayout(transactionPane, BoxLayout.Y_AXIS));
         customer.setText(bank.getLoggedUser().getName());
-        setContentPane(mainPanel);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setContentPane(mainPanel);
         setSize(600, 700);
         setLocation(400, 100);
         setVisible(true);
 
-
     }
 
     @Override
-    public void updateItems() {
+    public void refresh() {
 
     }
 
 
     private void updateTransactionItems(List<Transaction> transactions) {
         transactionItems.clear();
-        transactionPane.removeAll();
-        if(transactions == null) {
+        transactionPanel.removeAll();
+        if(transactions.size() == 0) {
 //            transactionItems = new ArrayList<TransactionItem>();
 //            System.out.println("no account");
             return;
@@ -43,7 +41,7 @@ public class TransactionScreen extends ItemScreen{
         for(Transaction transaction: transactions) {
             TransactionItem transactionItem = new TransactionItem(transaction, this);
             transactionItems.add(transactionItem);
-            transactionPane.add(transactionItem);
+            transactionPanel.add(transactionItem.getMainPanel());
         }
     }
 

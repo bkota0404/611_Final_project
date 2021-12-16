@@ -4,6 +4,6 @@ public abstract class ItemScreen extends Screen{
         super(bank);
     }
 
-    public abstract void updateItems();
+    public abstract void refresh();
 
 }

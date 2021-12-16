@@ -23,7 +23,7 @@ public class CheckCustomersScreen extends ItemScreen{
     }
 
     @Override
-    public void updateItems() {
+    public void refresh() {
 
     }
 }

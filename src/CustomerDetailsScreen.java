@@ -34,7 +34,7 @@ public class CustomerDetailsScreen extends ItemScreen{
     }
 
     @Override
-    public void updateItems() {
+    public void refresh() {
 
     }
 }
