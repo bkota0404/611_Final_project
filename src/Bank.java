@@ -243,8 +243,10 @@ public class Bank {
         if (loanAmount == realAmount) {
             loan.setLoanStatus(LoanStatus.CLOSE);
             dbManger.updateLoanClosure(loan.getLoanID());
+            return true;
         }
-        return false;
+        else
+            return false;
     }
 
     //add a loan to user
