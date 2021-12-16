@@ -226,11 +226,14 @@ public class Bank {
         if (fromAccount.getBalance() < amount) {
             return false;
         }
-        fromAccount.deductBalance(amount);
-        toAccount.addBalance(amount * (1 - BankConstants.getTransactionFeeRate()));
         if(!dbManger.transferMoney(fromAccount.getAccountId(), toAccount.getAccountId(), fromAccount.getBalance(), toAccount.getBalance())) {
             return false;
         }
+        fromAccount.deductBalance(amount);
+        toAccount.addBalance(amount * (1 - BankConstants.getTransactionFeeRate()));
+        Transaction t = dbManger.addTransaction(TransactionType.ACCOUNTTRANSFER,this.getLoggedUser().getUserId(),fromAccount.getAccountId(),amount,fromAccount.getCurrency(),this.getLoggedUser().getUserId(),toAccount.getAccountId(),null);
+        Customer c = (Customer) this.getLoggedUser();
+        c.addTransaction(t);
         return true;
     }
 
@@ -279,6 +282,7 @@ public class Bank {
     public List<Transaction> getDailyTransactions() {
         return dbManger.get24hrTransactionList();
     }
+
 
 
 }

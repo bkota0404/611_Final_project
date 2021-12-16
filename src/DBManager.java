@@ -198,12 +198,12 @@ public class DBManager {
     public Account getAccount(int id) {
         Account account = null;
         try {
-            String sql = "SELECT ID, USER_ID, TYPE ,AMOUNT, TYPE FROM ACCOUNTS WHERE ID = ?";
+            String sql = "SELECT ID, USER_ID, CURRENCY ,AMOUNT, TYPE FROM ACCOUNTS WHERE ID = ?";
             PreparedStatement stmt2 = conn.prepareStatement(sql);
             stmt2.setInt(1, id);
             ResultSet rs = stmt2.executeQuery();
 
-            String accType = rs.getString(3);
+            String accType = rs.getString(5);
             switch (accType) {
                 case "SAVINGS":
                     account = new SavingsAccount(
@@ -453,6 +453,22 @@ public class DBManager {
             return null;
         }
 
+        return newUser;
+    }
+
+    //get user by id
+    public User getUserById(int userId) {
+        String sql = "SELECT USERNAME FROM USERS WHERE ID = ?";
+        User newUser = null;
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            String userName = rs.getString(1);
+            newUser = getUser(userName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return newUser;
     }
 
