@@ -213,7 +213,8 @@ public class Bank {
         if (dbManger.updateBalance(account.getAccountId(), amount)){
             account.setBalance(amount);
         }
-        dbManger.addTransaction(transactionType, customerID, account.getAccountId(), amount, account.getCurrency(), -1, -1, null);
+        Transaction t =dbManger.addTransaction(transactionType, customerID, account.getAccountId(), amount, account.getCurrency(), -1, -1, null);
+        ((Customer) this.getLoggedUser()).addTransaction(t);
     }
 
     public boolean transfer(Account fromAccount, Account toAccount, double amount) {
@@ -243,6 +244,8 @@ public class Bank {
         if (loanAmount == realAmount) {
             loan.setLoanStatus(LoanStatus.CLOSE);
             dbManger.updateLoanClosure(loan.getLoanID());
+            Transaction t = dbManger.addTransaction(TransactionType.LOANCLOSE,this.getLoggedUser().getUserId(),((Customer) this.getLoggedUser()).getSavingsAccount().get(0).getAccountId(),loanAmount,((Customer) this.getLoggedUser()).getSavingsAccount().get(0).getCurrency(),-1,-1,null);
+            ((Customer) this.getLoggedUser()).addTransaction(t);
             return true;
         }
         else
@@ -255,6 +258,8 @@ public class Bank {
         Loan loan = dbManger.addLoan(c, loanAmount, currency.getCurrencyName(), collateral);
         if (loan != null) {
             c.addLoan(loan);
+            Transaction t =dbManger.addTransaction(TransactionType.LOANOPEN,this.getLoggedUser().getUserId(),((Customer) this.getLoggedUser()).getSavingsAccount().get(0).getAccountId(),loanAmount,((Customer) this.getLoggedUser()).getSavingsAccount().get(0).getCurrency(),-1,-1,collateral);
+            ((Customer) this.getLoggedUser()).addTransaction(t);
             return true;
             }
         else
