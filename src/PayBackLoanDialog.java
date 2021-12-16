@@ -60,8 +60,12 @@ public class PayBackLoanDialog extends JDialog {
         // add your code here
         double amount = Double.valueOf(amountSpinner.getValue().toString());
         Account account = (Account) accountCombo.getItemAt(accountCombo.getSelectedIndex());
+        double pendingLoanAmt = loan.getAmount();
         if(bank.payBackLoan(loan, account, amount)) {
-            JOptionPane.showMessageDialog(contentPane, "Paying back loan succeed.");
+            if(pendingLoanAmt == amount)
+                JOptionPane.showMessageDialog(contentPane, "Loan paid in full.");
+            else
+                JOptionPane.showMessageDialog(contentPane, "Paying loan installment successful.");
         }
         else {
             JOptionPane.showMessageDialog(contentPane, "Failed to pay back loan.");

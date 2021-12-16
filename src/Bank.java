@@ -246,10 +246,8 @@ public class Bank {
             dbManger.updateLoanClosure(loan.getLoanID());
             Transaction t = dbManger.addTransaction(TransactionType.LOANCLOSE,this.getLoggedUser().getUserId(),((Customer) this.getLoggedUser()).getSavingsAccount().get(0).getAccountId(),loanAmount,((Customer) this.getLoggedUser()).getSavingsAccount().get(0).getCurrency(),-1,-1,null);
             ((Customer) this.getLoggedUser()).addTransaction(t);
-            return true;
         }
-        else
-            return false;
+        return true;
     }
 
     //add a loan to user

@@ -7,7 +7,8 @@ public enum TransactionType {
     CHARGEFEE("CHARGEFEE"),
     CLOSEACCOUNT("CLOSEACCOUNT"),
     OPENACCOUNT("OPENACCOUNT"),
-    DEPOSIT("DEPOSIT");
+    DEPOSIT("DEPOSIT"),
+    LOANINSTALLMENT("LOANINSTALLMENT");
 
     private String transactionName;
 
