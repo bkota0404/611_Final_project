@@ -10,7 +10,7 @@ public class StockOfferedItem {
     private JLabel symbol;
     private JLabel currency;
 
-    public StockOfferedItem(Stocks stocks, ItemScreen parentScreen) {
+    public StockOfferedItem(Stocks stocks, Bank bank, ItemScreen parentScreen) {
 
         name.setText(stocks.getStockName());
         price.setText(String.valueOf(stocks.getStockPrice()));
@@ -20,6 +20,7 @@ public class StockOfferedItem {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                new BuyStockDialog(stocks, bank, parentScreen);
             }
         });
     }

@@ -1,22 +1,22 @@
 import javax.swing.*;
 import java.awt.event.*;
 
-public class CreateSecuritiesAccountDialog extends JDialog {
+public class AdjustPriceDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JSpinner amountSpinner;
-    private Bank bank;
+    private JSpinner priceSpinner;
+    private ItemScreen parentScreen;
+    private Stocks stock;
 
-    public CreateSecuritiesAccountDialog(Bank bank) {
+    public AdjustPriceDialog(Stocks stock, ItemScreen parentScreen) {
 
-        this.bank = bank;
-        int min = (int) BankConstants.getMinOpenSecuritiesAccountBalance();
-        amountSpinner.setModel(new SpinnerNumberModel(2000, 1000, 1000000, 1));
+        this.stock = stock;
+        this.parentScreen = parentScreen;
+        priceSpinner.setModel(new SpinnerNumberModel(stock.getStockPrice(), 0, 100000, 1));
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        setLocation(400, 200);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -44,17 +44,12 @@ public class CreateSecuritiesAccountDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-
-        pack();
-        setVisible(true);
     }
 
     private void onOK() {
         // add your code here
-        Customer customer = (Customer) bank.getLoggedUser();
-        double amount = Double.valueOf(amountSpinner.getValue().toString());
-        bank.createAccount(CurrencyType.USD, amount, AccountType.SECURITIES);
-        new StockScreen(bank);
+        stock.setStockPrice(Double.valueOf(priceSpinner.getValue().toString()));
+        parentScreen.refresh();
         dispose();
     }
 

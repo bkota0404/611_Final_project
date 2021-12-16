@@ -30,4 +30,7 @@ public class LoanItem extends UIItem{
 
     public JPanel getMainPanel() {return mainPanel;}
 
+    public JButton getPayBackLoanButton() {
+        return payBackLoanButton;
+    }
 }

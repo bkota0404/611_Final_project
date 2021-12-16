@@ -272,11 +272,17 @@ public class Bank {
             Transaction t =dbManger.addTransaction(TransactionType.LOANOPEN,this.getLoggedUser().getUserId(),((Customer) this.getLoggedUser()).getSavingsAccount().get(0).getAccountId(),loanAmount,((Customer) this.getLoggedUser()).getSavingsAccount().get(0).getCurrency(),-1,-1,collateral);
             ((Customer) this.getLoggedUser()).addTransaction(t);
             return true;
-            }
+        }
         else
             return false;
     }
 
 
+    public List<Customer> getAllCustomers() {
+        return dbManger.getAllCustomers();
+    }
 
+    public List<Transaction> getDailyTransactions() {
+        return dbManger.get24hrTransactionList();
+    }
 }

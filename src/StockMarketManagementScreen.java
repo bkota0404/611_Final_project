@@ -10,7 +10,12 @@ public class StockMarketManagementScreen extends ItemScreen{
     public StockMarketManagementScreen(Bank bank) {
         super(bank);
 
+        manager.setText(bank.getLoggedUser().getName());
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setContentPane(mainPanel);
+        setSize(600, 700);
+        setLocation(400, 100);
+        setVisible(true);
 
     }
 

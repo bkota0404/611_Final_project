@@ -51,11 +51,11 @@ public class SellStockDialog extends JDialog {
     private void onOK() {
         // add your code here
         int number = Integer.parseInt(amountSpinner.getValue().toString());
-        //
-//        if(!customer.sellStock(stocksPurchased, number)) {
-//            JOptionPane.showMessageDialog(this, "Failed to sell the stock.");
-//            return;
-//        }
+        Stocks stock = stocksPurchased.getStockPurchased();
+        if(!customer.getCustomerSecurityAcct().sellStocks(customer, stock.getStockID(), number, new DBManager())) {
+            JOptionPane.showMessageDialog(this, "Failed to sell the stock.");
+            return;
+        }
         parentScreen.refresh();
         dispose();
     }

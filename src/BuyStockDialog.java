@@ -8,12 +8,17 @@ public class BuyStockDialog extends JDialog {
     private JSpinner numberSpinner;
     private Customer customer;
     private ItemScreen parentScreen;
+    private Stocks stock;
+    private Bank bank;
 
-    public BuyStockDialog(StocksOffered stocksOffered, Customer customer, ItemScreen parentScreen) {
+    public BuyStockDialog(Stocks stock, Bank bank, ItemScreen parentScreen) {
 
-        this.customer = customer;
+        this.bank = bank;
+        this.customer = (Customer) bank.getLoggedUser();
         this.parentScreen = parentScreen;
+        this.stock = stock;
 //        numberSpinner.setModel(new SpinnerNumberModel(0, 0, stocksOffered.ge));
+        setLocation(400, 200);
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -52,11 +57,10 @@ public class BuyStockDialog extends JDialog {
     private void onOK() {
         // add your code here
         int number = Integer.parseInt(numberSpinner.getValue().toString());
-        //
-//        if(!customer.buyStock()) {
-//            JOptionPane.showMessageDialog(contentPane, "Failed to buy the stock.");
-//            return;
-//        }
+        if(!customer.getCustomerSecurityAcct().buyStock(customer, stock.getStockName(), stock.getStockSymbol(), stock.getStockPrice(), number, bank.getDbManger())) {
+            JOptionPane.showMessageDialog(contentPane, "Failed to buy the stock.");
+            return;
+        }
         parentScreen.refresh();
         dispose();
     }

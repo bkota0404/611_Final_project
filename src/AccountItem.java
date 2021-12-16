@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -52,4 +53,11 @@ public class AccountItem extends UIItem{
 
     public JPanel getMainPanel() {return mainPanel;}
 
+    public JButton getCloseAccountButton() {
+        return closeAccountButton;
+    }
+
+    public JButton getWithdrawlDepositButton() {
+        return withdrawlDepositButton;
+    }
 }

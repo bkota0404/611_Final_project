@@ -31,4 +31,7 @@ public class StockPurchasedItem extends UIItem{
     public JPanel getMainPanel() {return mainPanel;}
 
 
+    public JButton getSellStockButton() {
+        return sellStockButton;
+    }
 }
