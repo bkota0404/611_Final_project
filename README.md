@@ -11,22 +11,18 @@ Name
 
 
 Files
--------------------------------------------------------------------------------------------------
-***Added space for more readability***  
+------------------------------------------------------------------------------------------------- 
 
 **Back-end**  
 1. Main.java - Main class used start the run and call the game selection class
-
 2. ATM.java - Its like an interface for the user to Bank created for the purpose giving ATM effect and also can used incase of other functions exclusive for the ATMs to be scalable
-
 3. Bank.java - Class that will be called from within ATM for the user to access the database, create account, signup, login or display info etc.,
-
-4. Account.java - Class that stores account information and corresponding methods  
-5. AccountCreation.java - Used to create account in database using information passed from front-end  
-6. AccountType.java - Enum class storing acconut type  
-7.  BankConstants.java - Stores constants such as open account fee, transaction fee, etc.  
-8.  BankRepository.java - Bank repository interface containing delete and getAllList methods used for class that owns bank repository.    
-9.  CheckingsAccount.java - Class for checking account. Extend Account
+4. Account.java - Class that stores account information and corresponding attributes and methods like account balance, currency on which the account is operated, user whose account it is etc
+5. AccountCreation.java - Used to create account in database using information passed from front-end which acts as a account repository as well with methods to delete and get the list etc. 
+6. AccountType.java - Enum class storing account type  
+7. BankConstants.java - Stores constants such as open account fee, transaction fee, etc.  
+8. BankRepository.java - Bank repository interface containing delete and getAllList methods used for class that owns bank repository.    
+9. CheckingsAccount.java - Class for checking account. Extend Account
 10. CheckingsAccountCreation.java - Used to create checking account in database using information passed from front-end. Extend AccountCreation  
 11. CurrenciesOffered.java - Used to get currencies offered and delete certain currency (implements BankRepository)  
 12. Currency.java - Used to set and store current type with exchanging rate  
@@ -53,10 +49,8 @@ Files
 33. UserRoles.java - Enum contains all user roles (manager, customer)   
 
 **UI**  
-1. AccountItem.java - Account items from UI  
-   
+1. AccountItem.java - Account items from UI   
 2. AccountScreen.java - Account screen items from UI 
-   
 3. BuyStockDialog.java - Buy stock UI.  
 4. ChargingRulesDialog.java - Charging rules UI. 
 5. CreateAccountDialog.java - Create Account UI  
@@ -89,24 +83,36 @@ Files
 32. UIOwnable.java - Interface used for screen class which owns other screens  
 33. WithDrawlDepositDialog.java Withdrawl Deposit UI. Extends Dialog 
 
+**Jar Files**
+Forms_rt.jar
+Sqlite-jdbc-3.32.3.2.jar
+
+
+**Data Files**
+Stocks.csv
+
 
 Notes:
 -------------------------------------------------------------------------------------------------
-1. Files to be parsed should be stored in ConfigFiles, for parser class to read class along with the .wav file for music to be played
+1. Files to be parsed should be stored in src folder depending on the whether they are database or data files, for parser class to read class along with the .wav file for music to be played
 
 2. Bonus Implementations:
 	a. Parser created to read the json response from the stock api and write into file
 	b. Welcome message will be played as soon as the ATM screen is displayed.
 	c. Repository Pattern implemented to separate entities and the Dbstorage. We have created a BankRepository which will act as an master interface and also specific repositories for each entity like Account, User, Stocks etc.,. These interfaces named AccountCreation, UserCreation extends the main repository and is used to create successful records in db and as keep the data layer clean. 
 
-3. The code can be run in terminal but not on eclipse or IntelliJ workspace since the path is not consistent for the both. Followed the convention mentioned on piazza but modified the path to System.getProperty("user.dir") + "/database/" since adding src to the path will cause issues on terminal.
+3. To display the stock options and their prices, we leveraged the already available API from internet from financialmodelingprep and generated our own key which we used to call and receive response from the API in the form of JSON. 
 
-4. Platform Used - MAC
+4. The structure from the above mentioned JSON is read and written into an CSV from which it is read to display on GUI. For this purpose we have created a separate ListToFile class which acts as a parser.
+
+5. The code is tested to run on MAC computers due to unavailability of a Windows OS, we couldn't test but should work may be with a change in execute command.  java -cp "src/database/*;src" Main
+
+6. Platform Used - MAC
 
 
 How to run:
 -------------------------------------------------------------------------------------------------
 1. Navigate to the directory after downloading the project
 2. Run the following instructions on command line:
-	javac *.java
-	java Main.java
+	javac -cp "src/database/*" src/*.java
+	java -cp "src/database/*:src" Main
