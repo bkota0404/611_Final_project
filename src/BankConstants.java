@@ -58,7 +58,7 @@ public class BankConstants {
 	}
 	
 	public static double getMinOpenSecuritiesAccountBalance() {
-		return minOpenSavingAccountBalanceForSecurities;
+		return minOpenSecuritiesAccountBalance;
 	}
 	
 	public static boolean setMinOpenSecuritiesAccountBalance(double fee) {
