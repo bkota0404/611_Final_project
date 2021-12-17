@@ -43,7 +43,7 @@ public class StockMarketManagementScreen extends ItemScreen {
                 if (num_line++ >= 200) {
                     return;
                 }
-                Stocks stock = new Stocks(0, "USD", Double.valueOf(line.get(2)), line.get(0), line.get(1));
+                Stocks stock = new Stocks("USD", Double.valueOf(line.get(2)), line.get(0), line.get(1));
                 stockPanel.add(new StockManagementItem(bank, stock, this).getMainPanel());
             }
         }

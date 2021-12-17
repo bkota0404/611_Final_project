@@ -7,9 +7,8 @@ public class Stocks {
     private String stockSymbol;
 
 
-    public Stocks(int stockID, String currency, double stockPrice, String stockName, String stockSymbol) {
-        this.stockID = stockID;
-        Currency = currency;
+    public Stocks(String currency, double stockPrice, String stockName, String stockSymbol) {
+        this.Currency = currency;
         this.stockPrice = stockPrice;
         this.stockName = stockName;
         this.stockSymbol = stockSymbol;

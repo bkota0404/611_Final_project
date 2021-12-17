@@ -34,20 +34,20 @@ public class SecuritiesAccount extends Account{
     }
 
     //sell stocks through securities account
-    public boolean sellStocks(User u, int stockPurhasedId, int stocksNumber, DBManager db){
-        StocksPurchased s = db.getStockPurchasedByID(stockPurhasedId);
-        String name = s.getStockPurchased().getStockName();
+    public boolean sellStocks(User u, StocksPurchased stocksold, int stocksNumber, DBManager db){
+        //StocksPurchased s = db.getStockPurchasedByID(stockPurhasedId);
+        String name = stocksold.getStockPurchased().getStockName();
         int index=0;
         for(int i=0; i< stocksPurchased.size();i++){
-            if(stocksPurchased.get(i).getStockPurchased().getStockName().equalsIgnoreCase(name))
+            if(stocksPurchased.get(i).getStockPurchasedId() == stocksold.getStockPurchasedId())
                 index = i;
         }
-        double stockPrice = s.getStockPurchased().getStockPrice(); //saved to update account balance later incase all the stocks are sold
-        if(s.getNumOfShares()>=stocksNumber && db.updateStocksPurchasedNumber(stockPurhasedId,s.getNumOfShares()-stocksNumber)){
-            s.setNumOfShares(s.getNumOfShares()-stocksNumber);
-            Transaction t = db.addTransaction(TransactionType.STOCKSOLD,u.getUserId(),this.getAccountId(),s.getStockPurchased().getStockPrice()*stocksNumber,this.getCurrency(),-1,-1,null);
+        double stockPrice = stocksold.getStockPurchased().getStockPrice(); //saved to update account balance later incase all the stocks are sold
+        if(stocksold.getNumOfShares()>=stocksNumber && db.updateStocksPurchasedNumber(stocksold.getStockPurchasedId(),stocksold.getNumOfShares()-stocksNumber)){
+            stocksold.setNumOfShares(stocksold.getNumOfShares()-stocksNumber);
+            Transaction t = db.addTransaction(TransactionType.STOCKSOLD,u.getUserId(),this.getAccountId(),stocksold.getStockPurchased().getStockPrice()*stocksNumber,this.getCurrency(),-1,-1,null);
             ((Customer)u).addTransaction(t);
-            if(s.getNumOfShares()==stocksNumber)
+            if(stocksold.getNumOfShares()== 0)
                 stocksPurchased.remove(index);
             this.setBalance(this.getBalance()+(stockPrice*stocksNumber));
             db.updateBalance(this.getAccountId(),this.getBalance());

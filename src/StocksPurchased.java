@@ -4,12 +4,18 @@ public class StocksPurchased {
     private int accountID;
     private int numOfShares;
     private Stocks stockPurchased;
+    private int stockPurchasedId;
 
-    public StocksPurchased(int userID, int accountID, int numOfShares, Stocks stockPurchased) {
+    public int getStockPurchasedId() {
+        return stockPurchasedId;
+    }
+
+    public StocksPurchased(int stockPurchasedId,int userID, int accountID, int numOfShares, Stocks stockPurchased) {
         this.userID = userID;
         this.accountID = accountID;
         this.numOfShares = numOfShares;
         this.stockPurchased = stockPurchased;
+        this.stockPurchasedId = stockPurchasedId;
     }
 
     public Stocks getStockPurchased() {

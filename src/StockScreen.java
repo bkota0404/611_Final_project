@@ -62,7 +62,7 @@ public class StockScreen extends ItemScreen {
                 if (num_line++ >= 1000) {
                     return;
                 }
-                Stocks stock = new Stocks(0, "USD", Double.valueOf(line.get(2)), line.get(0), line.get(1));
+                Stocks stock = new Stocks("USD", Double.valueOf(line.get(2)), line.get(0), line.get(1));
                 stockOfferedPanel.add(new StockOfferedItem(stock, bank, this).getMainPanel());
             }
         }

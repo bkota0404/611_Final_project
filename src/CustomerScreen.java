@@ -24,7 +24,7 @@ public class CustomerScreen extends Screen {
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Customer customer = (Customer) bank.getLoggedUser();
-        viewStockButton.setEnabled(customer.isQualifiedForSecurities());
+        viewStockButton.setEnabled(customer.isQualifiedForSecurities() || (customer.getCustomerSecurityAcct() != null));
         setSize(500, 400);
         setLocation(400, 200);
         setVisible(true);
@@ -64,7 +64,7 @@ public class CustomerScreen extends Screen {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (customer.isQualifiedForSecurities())
+                if (customer.isQualifiedForSecurities() || (customer.getCustomerSecurityAcct() != null))
                     checkFirstTimeEnterStock();
             }
         });
@@ -76,7 +76,7 @@ public class CustomerScreen extends Screen {
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                viewStockButton.setEnabled(customer.isQualifiedForSecurities());
+                viewStockButton.setEnabled(customer.isQualifiedForSecurities() || (customer.getCustomerSecurityAcct() != null));
             }
         });
     }
@@ -150,7 +150,7 @@ public class CustomerScreen extends Screen {
         panel1.add(spacer6, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         customer = new JLabel();
         customer.setText("Label");
-        mainPanel.add(customer, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, new Dimension(40, -1), 0, false));
+        mainPanel.add(customer, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

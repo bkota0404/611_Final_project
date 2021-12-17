@@ -401,11 +401,9 @@ public class DBManager {
             stmt2.setInt(1, stockID);
             ResultSet rs = stmt2.executeQuery();
             if(rs.next()){
-                //StocksOffered sO = new StocksOffered();
-                //double latestPrice = sO.getLatestStockPriceBySymbol(rs.getString(3));
-                Stocks s = new Stocks(rs.getInt(1),rs.getString(6),rs.getDouble(5),
+                Stocks s = new Stocks(rs.getString(6),rs.getDouble(5),
                         rs.getString(2),rs.getString(3));
-                stocksPurchased = new StocksPurchased(rs.getInt(7),rs.getInt(8),rs.getInt(4),s);
+                stocksPurchased = new StocksPurchased(rs.getInt(1),rs.getInt(7),rs.getInt(8),rs.getInt(4),s);
             }
 
         } catch (SQLException e) {
@@ -715,7 +713,7 @@ public class DBManager {
         try {
             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             Date date = Calendar.getInstance().getTime();
-            DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd hh:mm:ss");
+            DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
             String strDate = dateFormat.format(date);
             stmt.setString(1, strDate);
             stmt.setString(2, type.toString());
