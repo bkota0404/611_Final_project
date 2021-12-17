@@ -63,7 +63,7 @@ Files
 6. CheckCustomersScreen.java - Check customers UI, extends ItemScreen. 
 7. CreateSecuritiesAccountDialog.java - Create security account UI. Extend JDialog 
 8. CustomerDetailsScreen.java - Customer Details Screen UI  
-9.  CustomerItem.java - Customer Item UI. Extend UIItem  
+9. CustomerItem.java - Customer Item UI. Extend UIItem  
 10. CustomerScreen.java - Customer Screen UI. Extend Screen  
 11. DailyReportScreen.java - Daily Report Screen UI. Extend ItemScreen 
 12. ItemScreen.java - Item Screen UI. Extends Screen 
@@ -86,8 +86,9 @@ Files
 29. TransactionScreen.java - Transaction Screen UI. Extends ItemScreen  
 30. TransferDialog.java - Transfer UI. Extends Dialog  
 31. UIItem.java - Base Item UI. Extends JFrame implements UIOwnable  
-32. UIOwnable.java - Interface used for screen class which owns other screens  
-33. WithDrawlDepositDialog.java Withdrawl Deposit UI. Extends Dialog 
+32. UIOwnable.java - Interface used for screen class which owns other screens
+33. ViewAllLoanScreen.java - Display all loans UI. Extends ItemScreen
+34. WithDrawlDepositDialog.java Withdrawl Deposit UI. Extends Dialog 
 
 
 Notes:

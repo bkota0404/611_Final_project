@@ -22,9 +22,9 @@ public class Customer extends User {
 		transactions = new ArrayList<>();
 		this.stockPurchased = new ArrayList<>();
 	}*/
-	
+
 	public Customer(User user, List<Account> accounts,
-			List<Loan> loans,List<Transaction> transactions,List<StocksPurchased> stockPurchased) {
+					List<Loan> loans,List<Transaction> transactions,List<StocksPurchased> stockPurchased) {
 		super(user.getUserId(), user.getName(), user.getUserName(), user.getPassword(), user.getUserRole());
 		this.accounts = accounts;
 		this.loans = loans;
@@ -32,35 +32,35 @@ public class Customer extends User {
 		this.stockPurchased = stockPurchased;
 	}
 
-    public Customer(int id, String name, String userName, String password, UserRoles userRole,List<Account> accounts,
+	public Customer(int id, String name, String userName, String password, UserRoles userRole,List<Account> accounts,
 					List<Loan> loans,List<Transaction> transactions, List<StocksPurchased> stockPurchased)  {
 		super(id, name, userName, password, userRole);
 		this.accounts = accounts;
 		this.loans = loans;
 		this.transactions = transactions;
 		this.stockPurchased = stockPurchased;
-    }
+	}
 
-    public void addAccount(Account a) {
+	public void addAccount(Account a) {
 		accounts.add(a);
 	}
-	
+
 	public void removeAccount(Account a) {
 		accounts.remove(a);
 	}
-	
+
 	public void addLoan(Loan l) {
 		loans.add(l);
 	}
-	
+
 	public void removeLoan(Loan l) {
 		loans.remove(l);
 	}
-	
+
 	public void addTransaction(Transaction t) {
 		transactions.add(t);
 	}
-	
+
 	public void removeTransaction(Transaction t) {
 		transactions.remove(t);
 	}
@@ -96,10 +96,14 @@ public class Customer extends User {
 	}
 
 	public SecuritiesAccount getCustomerSecurityAcct(){
-		SecuritiesAccount s=null;
-		for(Account a: this.getAccounts()){
-			if(a.getAccountType().equals(AccountType.SECURITIES))
-				s = (SecuritiesAccount)a;
+		SecuritiesAccount s = null;
+		if(getAccounts() != null) {
+			for(Account a: this.getAccounts()){
+				if(a.getAccountType().equals(AccountType.SECURITIES)) {
+					s = (SecuritiesAccount) a;
+					break;
+				}
+			}
 		}
 		return s;
 	}

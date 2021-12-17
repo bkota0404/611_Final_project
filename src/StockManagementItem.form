@@ -40,12 +40,12 @@
           <text value="Label"/>
         </properties>
       </component>
-      <component id="39c4f" class="javax.swing.JButton" binding="adjustPriceButton">
+      <component id="39c4f" class="javax.swing.JButton" binding="raisePriceButton">
         <constraints>
           <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Adjust Price"/>
+          <text value="Raise Price"/>
         </properties>
       </component>
       <component id="a274a" class="javax.swing.JLabel">
@@ -56,12 +56,12 @@
           <text value="Symbol:"/>
         </properties>
       </component>
-      <component id="5d4dc" class="javax.swing.JButton" binding="cancelStockButton" default-binding="true">
+      <component id="5d4dc" class="javax.swing.JButton" binding="lowerPriceButton">
         <constraints>
           <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Cancel Stock"/>
+          <text value="Lower Price"/>
         </properties>
       </component>
       <component id="3968e" class="javax.swing.JLabel" binding="symbol">
