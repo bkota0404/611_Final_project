@@ -13,6 +13,7 @@ public class BankConstants {
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	public static final  String BANK_NAME = "CPK Bank";
 	public static final String BANK_FILE_PATH = System.getProperty("user.dir") + "/src/";
+	//public static final String BANK_FILE_PATH = System.getProperty("user.dir");
 
 
 
