@@ -84,13 +84,13 @@ public class StockManagementItem {
         price.setText("Label");
         mainPanel.add(price, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         raisePriceButton = new JButton();
-        raisePriceButton.setText("Raise Price");
+        raisePriceButton.setText("Refresh Price");
         mainPanel.add(raisePriceButton, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label3 = new JLabel();
         label3.setText("Symbol:");
         mainPanel.add(label3, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         lowerPriceButton = new JButton();
-        lowerPriceButton.setText("Lower Price");
+        lowerPriceButton.setText("Reload Stocks");
         mainPanel.add(lowerPriceButton, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         symbol = new JLabel();
         symbol.setText("Label");

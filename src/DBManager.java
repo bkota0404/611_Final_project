@@ -715,12 +715,11 @@ public class DBManager {
         try {
             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             Date date = Calendar.getInstance().getTime();
-            DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+            DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd hh:mm:ss");
             String strDate = dateFormat.format(date);
             stmt.setString(1, strDate);
             stmt.setString(2, type.toString());
             stmt.setDouble(3, amount);
-            stmt.setString(4, currency);
             stmt.setInt(5, userid);
             stmt.setInt(6, accountId);
             stmt.setInt(7, targetUserId);
