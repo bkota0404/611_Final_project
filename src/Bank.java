@@ -166,9 +166,9 @@ public class Bank {
         else
         {
             Account savingsAccount = dbManger.getUserAccountByType((Customer)this.getLoggedUser(),AccountType.SAVINGS);
-            if(savingsAccount.getBalance() > BankConstants.getMinOpenSavingAccountBalanceForSecurities()){
-                isAccntCreated = securitiesAccntRepo.createSecuritiesAccount(this.getLoggedUser(), BankConstants.getMinOpenSecuritiesAccountBalance(), currencyType.getCurrencyName(), dbManger);
-                savingsAccount.setBalance(savingsAccount.getBalance()-BankConstants.getMinOpenSecuritiesAccountBalance());
+            if(savingsAccount.getBalance() > BankConstants.getMinOpenSavingAccountBalanceForSecurities() && openingBalance >= BankConstants.getMinOpenSecuritiesAccountBalance()){
+                isAccntCreated = securitiesAccntRepo.createSecuritiesAccount(this.getLoggedUser(), openingBalance, currencyType.getCurrencyName(), dbManger);
+                savingsAccount.setBalance(savingsAccount.getBalance()-openingBalance);
             }
         }
         return isAccntCreated;

@@ -66,6 +66,11 @@ public class Customer extends User {
 	}
 
 
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
+	}
+
+
 	//check why currency is required as input parameter
 	public List<SavingsAccount> getSavingsAccount() {
 		List<SavingsAccount> sa = new ArrayList<>();
