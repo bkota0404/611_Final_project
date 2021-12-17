@@ -24,33 +24,33 @@ Files
 4. Account.java - Class that stores account information and corresponding methods  
 5. AccountCreation.java - Used to create account in database using information passed from front-end  
 6. AccountType.java - Enum class storing acconut type  
-7.  BankConstants.java - Stores constants such as open account fee, etc.  
-8.  BankRepository.java - Bank repository interface with generic type.    
+7.  BankConstants.java - Stores constants such as open account fee, transaction fee, etc.  
+8.  BankRepository.java - Bank repository interface containing delete and getAllList methods used for class that owns bank repository.    
 9.  CheckingsAccount.java - Class for checking account. Extend Account
 10. CheckingsAccountCreation.java - Used to create checking account in database using information passed from front-end. Extend AccountCreation  
-11. CurrenciesOffered .java- Currencies offered. Extend BankRepository.  
-12. Currency.java - Currency setting and exchanging rate  
-13. CurrencyType.java - Enum to store currency type  
-14. Customer.java - Customer class. Extend User   
-15. DBManager.java - Class that linked to database providing initialization and query.  
-16. HighInterestEarningAccounts.java - Interface for account with interest   
-17. ListToFile.java - Parsing list to file  
-18. Loan.java - Loan Class  
-19. LoanStatus.java - Enum for Loan Status.    
-20. Manager.java - Manager Class. Extends User  
-21. ManagerAccount.java - Manager Account class. Extends Account    
-22. SavingsAccount.java - Savings Account class. Extends Account  
+11. CurrenciesOffered.java - Used to get currencies offered and delete certain currency (implements BankRepository)  
+12. Currency.java - Used to set and store current type with exchanging rate  
+13. CurrencyType.java - Enum class contains the values of the types of currency  
+14. Customer.java - Used to store customers' information including personal information as well as account/loan/stock information. Extend User   
+15. DBManager.java - Used to link to database providing initialization and query.  
+16. HighInterestEarningAccounts.java - Interface for account classes that have interests   
+17. ListToFile.java - A utility class parsing list to file  
+18. Loan.java - Used to store loan information for a certain user and account     
+19. LoanStatus.java - Enum for Loan Status -- open, closed.    
+20. Manager.java - Used to store manager information and their basic operation methods(get all customer accounts, stocks, etc). Extends User  
+21. ManagerAccount.java - Used for manager account. Extends Account    
+22. SavingsAccount.java - Used to manage saving account which entends Account and has interest(implemnets HighInterestEarningAccounts)   
 23. SavingsAccountCreation.java - Used to create savings account in database using information passed from front-end. Extend AccountCreation    
-24. SecuritiesAccount.java - Securities Account class. Extends Account  
+24. SecuritiesAccount.java - Used to store user's stock information and manage (buy/sell) stocks. Extends Account  
 25. SecuritiesAcntCreation.java - Used to create securities account in database using information passed from front-end. Extend AccountCreation  
-26. Stocks.java - Stock Class    
-27. StocksOffered.java - Stocks Offered class.  Implements BankRepository  
-28. StocksPurchased.java - A class that records purchased stocks  
-29. Transaction.java - Transaction class that records each transaction information   
-30. TransactionType.java - Enum storing transaction type    
-31. User.java - User Class  
+26. Stocks.java - Used to manage stocks including stock ID, price, name, etc.    
+27. StocksOffered.java - Used to store the list of all offered stocks, stock prices, stock names, etc, implementing delete and getAllList methods(from interface BankRepository)  
+28. StocksPurchased.java - A class that records purchased stocks for a certain user and account  
+29. Transaction.java - Used to records each transaction information including users, date, acocunts, collateral information   
+30. TransactionType.java - An Enum contains all transaction type (withdrawl, deposit, loan open, stock sold, ...)     
+31. User.java - Used for users containing user role, name, username, password, user id.  
 32. UserCreation.java -  Used to create user in database using information passed from front-end. Implements BankRepository  
-33. UserRoles.java - Enum to record the user roles   
+33. UserRoles.java - Enum contains all user roles (manager, customer)   
 
 **UI**  
 1. AccountItem.java - Account items from UI  
@@ -71,7 +71,7 @@ Files
 14. LoanScreen.java - Loan Screen UI. Extends ItemScreen  
 15. LoginScreen.java - Login Screen UI. Extends Screen  
 16. ManagerScreen.java - Manager Screen UI. Extends Screen 
-17. Music.java - Music Class. Extends JFrame  
+17. Music.java - contains logic to start, loop and stop the music during program execution. Extends JFrame  
 18. PayBackLoanDialog.java - Pay Back Loan UI. Extends JDialog  
 19. RequestLoanDialog.java - Request Loan UI. Extends JDialog  
 20. Screen.java - Screen UI. entends JFrame  
@@ -86,7 +86,7 @@ Files
 29. TransactionScreen.java - Transaction Screen UI. Extends ItemScreen  
 30. TransferDialog.java - Transfer UI. Extends Dialog  
 31. UIItem.java - Base Item UI. Extends JFrame implements UIOwnable  
-32. UIOwnable.java - Interface to determine the ownership of screen  
+32. UIOwnable.java - Interface used for screen class which owns other screens  
 33. WithDrawlDepositDialog.java Withdrawl Deposit UI. Extends Dialog 
 
 
