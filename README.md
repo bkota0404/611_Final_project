@@ -100,6 +100,8 @@ Notes:
 	a. Parser created to read the json response from the stock api and write into file
 	b. Welcome message will be played as soon as the ATM screen is displayed.
 	c. Repository Pattern implemented to separate entities and the Dbstorage. We have created a BankRepository which will act as an master interface and also specific repositories for each entity like Account, User, Stocks etc.,. These interfaces named AccountCreation, UserCreation extends the main repository and is used to create successful records in db and as keep the data layer clean. 
+	d. GUI Implemented
+	e. API created for stocks
 
 3. To display the stock options and their prices, we leveraged the already available API from internet from financialmodelingprep and generated our own key which we used to call and receive response from the API in the form of JSON. 
 
@@ -114,5 +116,5 @@ How to run:
 -------------------------------------------------------------------------------------------------
 1. Navigate to the directory after downloading the project
 2. Run the following instructions on command line:		
-	javac -cp "src/database/*" src/*.java	
-	java -cp "src/database/*:src" Main
+	a. javac -cp "src/database/*" src/*.java	
+	b. java -cp "src/database/*:src" Main
