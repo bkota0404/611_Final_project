@@ -115,6 +115,8 @@ Notes:
 How to run:
 -------------------------------------------------------------------------------------------------
 1. Navigate to the directory after downloading the project
-2. Run the following instructions on command line:		
+2. Run the following instructions on command line:	
+	
 	a. javac -cp "src/database/*" src/*.java	
+
 	b. java -cp "src/database/*:src" Main
